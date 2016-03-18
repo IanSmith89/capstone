@@ -16,9 +16,7 @@ var bcrypt = require('bcrypt');
 // Instantiate a new instance of the ORM
 var orm = new Waterline();
 
-/////////////////////////////////////////////
-////////// WATERLINE CONFIGURATION //////////
-/////////////////////////////////////////////
+// Waterline Config
 
 // Require any waterline compatible adapters here
 var diskAdapter = require('sails-disk');
@@ -55,11 +53,8 @@ var config = {
 
 };
 
-/////////////////////////////////////////////
-////////// WATERLINE MODELS /////////////////
-/////////////////////////////////////////////
-
 // Waterline models
+
 var User = Waterline.Collection.extend({
 
   identity: 'user',
@@ -132,11 +127,8 @@ var Donation = Waterline.Collection.extend({
 orm.loadCollection(User);
 orm.loadCollection(Donation);
 
-/////////////////////////////////////////////
-////////////// EXPRESS SETUP ////////////////
-/////////////////////////////////////////////
+// Express Setup
 
-// Setup Express Application
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(methodOverride());
@@ -254,11 +246,8 @@ app.post('/login', function(req, res) {
   });
 });
 
-/////////////////////////////////////////////
-////////// LAUNCH WATERLINE /////////////////
-/////////////////////////////////////////////
-
 // Start Waterline passing adapters in
+
 orm.initialize(config, function(err, models) {
   if (err) {
     throw err;
