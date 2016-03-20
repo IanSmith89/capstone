@@ -61,10 +61,7 @@ var User = Waterline.Collection.extend({
   connection: 'myLocalDisk',
 
   attributes: {
-    role: {
-      type: 'string',
-      required: true
-    },
+    role: 'string',
     organization: 'string',
     first_name: {
       type: 'string',
@@ -89,8 +86,11 @@ var User = Waterline.Collection.extend({
     zip: 'integer',
     donations: {
       collection: 'donation',
-      via: 'donors',
-      dominant: true
+      via: 'donor'
+    },
+    received: {
+      collection: 'donation',
+      via: 'recipient'
     },
     fullName: function() {
       return this.first_name + ' ' + this.last_name;
@@ -108,13 +108,23 @@ var Donation = Waterline.Collection.extend({
   connection: 'myLocalPostgres',
 
   attributes: {
-    type: 'string',
+    type: {
+      type: 'string',
+      enum: ['donation', 'compost']
+    },
     details: 'text',
     amount: 'integer',
-    status: 'string',
-    donors: {
-      collection: 'user',
-      via: 'donations'
+    status: {
+        type: 'string',
+        defaultsTo: 'pending',
+        enum: ['pending', 'en_route', 'dropped']
+    },
+    pickup_date: 'dateTime',
+    donor: {
+      model: 'user'
+    },
+    recipient: {
+      model: 'user'
     }
   },
 
