@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="col-md-offset-4 col-md-4">
+    <h2><span ng-show="AC.userType === 'donor'">Donor</span><span ng-show="AC.userType === 'recipient'">Recipient</span> Registration</h2>
+    <form name="registration" ng-submit="AC.register(user)">
+      <div ng-show="AC.stepOne === 'incomplete'">
+        <div class="form-group">
+          <label for="first_name">Primary Contact</label>
+          <input ng-model="user.first_name" type="text" class="form-control" id="first_name" placeholder="First Name" required />
+        </div>
+        <div class="form-group">
+          <input ng-model="user.last_name" type="text" class="form-control" id="last_name" placeholder="Last Name" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input ng-model="user.email" type="email" class="form-control" id="email" placeholder="Email" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input ng-model="user.password" type="password" class="form-control" id="password" placeholder="Password" required />
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" id="retype" placeholder="Re-type Password" required />
+        </div>
+        <a href="" type="button" class="btn btn-default" ng-click="AC.stepOne = 'complete'">Next Step</a>
+      </div>
+      <div ng-show="AC.stepOne === 'complete'">
+        <div class="form-group">
+          <label for="organization">Organization</label>
+          <input ng-model="user.organization" type="text" class="form-control" id="organization" placeholder="Organization" />
+        </div>
+        <div class="form-group">
+          <label for="address">Address</label>
+          <input ng-model="user.address1" type="text" class="form-control" id="address" placeholder="Street Address" />
+        </div>
+        <div class="form-group">
+          <input ng-model="user.address2" type="text" class="form-control" id="address2" />
+        </div>
+        <div class="form-group">
+          <label for="city">City</label>
+          <input ng-model="user.city" type="text" class="form-control" id="city" placeholder="City" />
+        </div>
+        <div class="form-group">
+          <label for="state">State</label>
+          <select ng-model="user.state" type="text" class="form-control" id="state" placeholder="State">
+            <option value="AL">
+              Alabama
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="zip">Zip</label>
+          <input ng-model="user.zip" type="number" class="form-control" id="zip" placeholder="Zip" />
+        </div>
+        <a href="" type="button" class="btn btn-default" ng-click="AC.stepOne = 'incomplete'">Go Back</a>
+        <button type="submit" class="btn btn-default">Register</button>
+      </div>
+    </form>
+  </div>
+</div>

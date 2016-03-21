@@ -62,23 +62,14 @@ var User = Waterline.Collection.extend({
 
   attributes: {
     role: 'string',
-    organization: 'string',
-    first_name: {
+    organization: {
       type: 'string',
-      required: true
+      defaultsTo: 'Individual Donor'
     },
-    last_name: {
-      type: 'string',
-      required: true
-    },
-    email: {
-      type: 'email',
-      required: true
-    },
-    password: {
-      type: 'string',
-      required: true
-    },
+    first_name: 'string',
+    last_name: 'string',
+    email: 'email',
+    password: 'string',
     address: 'string',
     phone: 'string',
     city: 'string',

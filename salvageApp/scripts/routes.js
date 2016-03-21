@@ -10,5 +10,9 @@ angular.module('salvage')
       .when('/login', {
         templateUrl: 'templates/login.html',
         controller: 'AuthCtrl as AC'
+      })
+      .when('/register/:user', {
+        templateUrl: 'templates/register.html',
+        controller: 'AuthCtrl as AC'
       });
   });

@@ -2,4 +2,7 @@
   display: none !important; }
 
 body {
+  font-family: 'Work Sans', sans-serif;
+  background: #2bb673;
+  color: white;
   padding-top: 70px; }
