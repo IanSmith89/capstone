@@ -35,23 +35,35 @@ function AuthCtrl(authService, $routeParams) {
     });
   }
 
-  function register(user) {
-    if (user.address2) {
-      user.address = user.address1 + ', ' + user.address2;
-    } else {
-      user.address = user.address1;
+  function register(form, isValid) {
+    if (isValid) {
+      var user = {};
+      if (vm.userType === 'donor') {
+        user.role = 'donor';
+      } else {
+        user.role = 'recipient';
+      }
+      user.first_name = form.first_name.$modelValue;
+      user.last_name = form.last_name.$modelValue;
+      user.email = form.email.$modelValue;
+      user.password = form.password.$modelValue;
+      if (form.address2.$modelValue) {
+        user.address = form.address1.$modelValue + ', ' + form.address2.$modelValue;
+      } else {
+        user.address = form.address1.$modelValue;
+      }
+      user.city = form.city.$modelValue;
+      user.state = form.state.$modelValue;
+      user.zip = form.zip.$modelValue;
+      if (form.organization) {
+        user.organization = form.organization.$modelValue;
+      }
+
+      authService.register(user).then(function(res) {
+        console.log(res);
+      }).catch(function(err) {
+        console.err(err);
+      });
     }
-    delete user.address1;
-    delete user.address2;
-    if (vm.userType === 'donor') {
-      user.role = 'donor';
-    } else {
-      user.role = 'recipient';
-    }
-    authService.register(user).then(function(res) {
-      console.log(res);
-    }).catch(function(err) {
-      console.err(err);
-    });
   }
 }
