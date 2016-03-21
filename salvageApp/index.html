@@ -9,7 +9,31 @@
 </head>
 
 <body ng-controller="IndexCtrl as IC" ng-cloak>
-  <main ng-view></main>
+  <div class="conatiner">
+    <nav class="navbar navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">salvage</a>
+        </div>
+        <div class="navbar navbar-collapse navbar-right">
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Log In <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="#/login">Login</a>
+                </li>
+                <li>
+                  <a href="" ng-click="IC.logout()">Logout</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <main ng-view></main>
+  </div>
 
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-route.js"></script>

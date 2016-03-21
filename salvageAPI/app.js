@@ -144,7 +144,7 @@ app.use(bodyParser.json());
 app.use(methodOverride());
 
 var corsOptions = {
-  origin: 'http://localhost:8100'
+  origin: 'http://localhost:8080'
 };
 app.use(cors(corsOptions));
 
@@ -246,7 +246,7 @@ app.post('/login', function(req, res) {
             expiresIn: 14400
           };
           jsonWebToken.sign(user, secret, options, function(token) {
-            res.json({token: token});
+            res.json({token: 'Bearer ' + token});
           });
         } else {
           return res.status(500).json({err: 'failed to authenticate'});
