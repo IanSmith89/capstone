@@ -6,3 +6,14 @@ body {
   background: #2bb673;
   color: white;
   padding-top: 70px; }
+
+nav {
+  background: #2bb673; }
+
+ng-map {
+  position: absolute;
+  top: 70px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1; }

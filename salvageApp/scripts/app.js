@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('salvage', ['ngRoute']);
+angular.module('salvage', ['ngRoute', 'ngMap']);

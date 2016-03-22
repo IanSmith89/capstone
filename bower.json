@@ -1,0 +1,21 @@
+{
+  "name": "capstone",
+  "description": "",
+  "main": "app.js",
+  "authors": [
+    "Ian Smith"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/IanSmith89/salvage",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ngmap": "^1.16.7"
+  }
+}

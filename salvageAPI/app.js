@@ -234,10 +234,10 @@ app.post('/login', function(req, res) {
           delete user.password;
           var secret = process.env.JWTSECRET;
           var options = {
-            expiresIn: 14400
+            expiresIn: 3600
           };
           jsonWebToken.sign(user, secret, options, function(token) {
-            res.json({token: 'Bearer ' + token});
+            res.json({token: token, user: user});
           });
         } else {
           return res.status(500).json({err: 'failed to authenticate'});
@@ -245,6 +245,11 @@ app.post('/login', function(req, res) {
       });
     }
   });
+});
+
+// GET '/user_info' returns user info
+app.get('/user_info', jwt({secret: process.env.JWTSECRET}), function(req, res) {
+  res.json(req.user);
 });
 
 // Start Waterline passing adapters in

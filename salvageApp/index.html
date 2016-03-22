@@ -10,7 +10,7 @@
 </head>
 
 <body ng-controller="IndexCtrl as IC" ng-cloak>
-  <div class="conatiner">
+  <div class="container">
     <nav class="navbar navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -22,7 +22,7 @@
               <a href="#">About</a>
             </li>
             <li>
-              <a href="#">Map</a>
+              <a href="#/map">Map</a>
             </li>
             <li>
               <a href="#">Post</a>
@@ -38,12 +38,21 @@
         <div class="navbar navbar-collapse navbar-right">
           <ul class="nav navbar-nav">
             <li class="dropdown">
-              <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users <span class="caret"></span></a>
+              <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{IC.user.handle || 'Users'}} <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li>
-                  <a href="#/login">Login</a>
+                  <a href="#">Donor Registration</a>
                 </li>
                 <li>
+                  <a href="#">Recipient Registration</a>
+                </li>
+                <li ng-hide="!IC.user.loggedIn">
+                  <a href="#/user">User Profile</a>
+                </li>
+                <li ng-hide="IC.user.loggedIn">
+                  <a href="#/login">Login</a>
+                </li>
+                <li ng-hide="!IC.user.loggedIn">
                   <a href="" ng-click="IC.logout()">Logout</a>
                 </li>
               </ul>
@@ -52,11 +61,13 @@
         </div>
       </div>
     </nav>
-    <main ng-view></main>
   </div>
+  <main ng-view></main>
 
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-route.js"></script>
+  <script src="/bower_components/ngmap/build/scripts/ng-map.min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js" async defer></script>
   <script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
   <script src="./scripts/app.js"></script>
