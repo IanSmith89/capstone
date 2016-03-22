@@ -13,6 +13,12 @@ function IndexCtrl($location, userService) {
 
   vm.user = userService.getUser();
 
+  if (userService.getLoginStatus()) {
+    userService.User().then(function(res) {
+      // console.log(res);
+    });
+  }
+
   if (vm.user.loggedIn) {
     userService.User().then(function(res) {
       // console.log(res);
