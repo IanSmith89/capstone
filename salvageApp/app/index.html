@@ -49,6 +49,7 @@
                 <li ng-hide="!IC.user.loggedIn">
                   <a href="#/user">User Profile</a>
                 </li>
+                <li role="separator" class="divider"></li>
                 <li ng-hide="IC.user.loggedIn">
                   <a href="#/login">Login</a>
                 </li>
@@ -64,18 +65,27 @@
   </div>
   <main ng-view></main>
 
-  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-route.js"></script>
-  <script src="/bower_components/ngmap/build/scripts/ng-map.min.js"></script>
+  <!-- build:js scripts/vendor.js -->
+  <script src="./bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+  <script src="./bower_components/angular/angular.js"></script>
+  <script src="./bower_components/angular-route/angular-route.js"></script>
+  <script src="./bower_components/angular-animate/angular-animate.js"></script>
+  <script src="./bower_components/angular-aria/angular-aria.js"></script>
+  <script src="./bower_components/angular-material/angular-material.js"></script>
+  <script src="./bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+  <script src="./bower_components/ngmap/build/scripts/ng-map.min.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js" async defer></script>
-  <script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
-  
+  <!-- endbuild -->
+
+  <!-- build:app scripts/app.js -->
   <script src="./scripts/app.js"></script>
   <script src="./scripts/services.js"></script>
   <script src="./scripts/controllers.js"></script>
   <script src="./scripts/directives.js"></script>
   <script src="./scripts/routes.js"></script>
+  <!-- endbuild -->
 </body>
 
 </html>

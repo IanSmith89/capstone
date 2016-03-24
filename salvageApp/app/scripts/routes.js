@@ -14,6 +14,10 @@ function routes($routeProvider) {
       templateUrl: 'templates/map.html',
       controller: 'MapCtrl'
     })
+    .when('/donation', {
+      templateUrl: 'templates/donation.html',
+      controller: 'DonationCtrl as DC'
+    })
     .when('/login', {
       templateUrl: 'templates/login.html',
       controller: 'AuthCtrl as AC'

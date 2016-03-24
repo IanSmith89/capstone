@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-md-offset-4 col-md-4">
+    <h2 calss="text-center">Post a Donation</h2>
+    <form name="donation" ng-submit="DC.post(donation, donation.$valid); donation.$setPristine();" novalidate>
+      <div class="form-group">
+        <label for="category">Category</label>
+        <div class="checkbox">
+          <label for="category_donation">
+            <input type="checkbox" name="category_donation" ng-model="category.donation"/>
+            Excess food donation
+          </label>
+        </div>
+        <div class="checkbox">
+          <label for="cactegory_compost">
+            <input type="checkbox" name="category_compost" ng-model="category.compost"/>
+            Compost/Food Scraps
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="details">Details</label>
+        <textarea name="details" class="form-control" ng-model="details" placeholder="Quick item description..." ng-minlength="3" ng-maxlength="255" required></textarea>
+        <span ng-show="donation.details.$error.minlength" class="help-block">Must be at least 3 characters</span>
+        <span ng-show="donation.details.$error.maxlength" class="help-block">Must be less than 255 characters</span>
+      </div>
+      <div class="form-group">
+        <label for="amount">Estimated Weight</label>
+        <input type="number" name="amount" class="form-control" ng-model="amount" placeholder="lbs" required/>
+      </div>
+      <div class="form-group">
+        <label for="pickup_date">Preferred Pickup Date/Time</label>
+        <input type="datetime" name="pickup_date" class="form-control" ng-model="pickup_date" requried />
+      </div>
+      <button type="submit" class="btn btn-default" ng-disabled="donation.$invalid">Submit</button>
+    </form>
+  </div>
+</div>

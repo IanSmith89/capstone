@@ -3,19 +3,21 @@
 angular.module('salvage')
 .service('authService', ['$http', authService])
 .service('userService', ['$http', '$location', userService])
+.service('donationService', ['$http', '$location', donationService])
 .factory('authInterceptor', ['$location', '$q', authInterceptor]);
 
 function authService($http) {
-  this.name = '';
-  this.login = login;
-  this.register = register;
-  this.destroy = destroy;
+  return {
+    login: login,
+    register: register,
+    destroy: deleteUser
+  };
 
   function login(user) {
     return $http.post('http://localhost:3000/login', user).then(function(response) {
       return response;
     }, function(err) {
-      throw err;
+      if (err) {throw err;}
     });
   }
 
@@ -23,30 +25,32 @@ function authService($http) {
     return $http.post('http://localhost:3000/users', user).then(function(response) {
       return response;
     }, function(err) {
-      throw err;
+      if (err) {throw err;}
     });
   }
 
-  function destroy(user) {
+  function deleteUser(user) {
     return $http.delete('http://localhost:3000/users/' + user.id).then(function(response) {
       return response;
     }, function(err) {
-      throw err;
+      if (err) {throw err;}
     });
   }
 }
 
 function userService($http, $location) {
-  this.User = dataFromServer;
-  this.getUser = getUser;
-  this.setUser = setUser;
-  this.getLoginStatus = checkLogin;
-  this.logout = logout;
-
   var userData = {
     user: {},
     handle: 'Users',
     loggedIn: false
+  };
+
+  return {
+    User: dataFromServer,
+    getUser: getUser,
+    setUser: setUser,
+    getLoginStatus: checkLogin,
+    logout: logout
   };
 
   function dataFromServer() {
@@ -60,7 +64,7 @@ function userService($http, $location) {
       }
       return response;
     }, function(err) {
-      throw err;
+      if (err) {throw err;}
     });
   }
 
@@ -89,6 +93,56 @@ function userService($http, $location) {
       loggedIn: false
     };
     $location.path('/');
+  }
+}
+
+function donationService($http, $location) {
+  return {
+    get: getDonations,
+    post: postDonation,
+    getById: getDonationById,
+    update: updateDonation,
+    destroy: deleteDonation
+  };
+
+  function getDonations() {
+    return $http.get('http://localhost:3000/donations').then(function(response) {
+      return response;
+    }, function(err) {
+      if (err) {throw err;}
+    });
+  }
+
+  function postDonation(donation) {
+    return $http.post('http://localhost:3000/donations', donation).then(function(response) {
+      return response;
+    }, function(err) {
+      if (err) {throw err;}
+    });
+  }
+
+  function getDonationById(id) {
+    return $http.get('http://localhost:3000/donations/' + id).then(function(response) {
+      return response;
+    }, function(err) {
+      if (err) {throw err;}
+    });
+  }
+
+  function updateDonation(id, donation) {
+    return $http.put('http://localhost:3000/donations/' + id, donation).then(function(response) {
+      return response;
+    }, function(err) {
+      if (err) {throw err;}
+    });
+  }
+
+  function deleteDonation(id) {
+    return $http.delete('http://localhost:3000/donations/' + id).then(function(response) {
+      return response;
+    }, function(err) {
+      if (err) {throw err;}
+    });
   }
 }
 

@@ -3,6 +3,7 @@
 angular.module('salvage')
 .controller('IndexCtrl', ['$location', 'userService', IndexCtrl])
 .controller('MapCtrl', [MapCtrl])
+.controller('DonationCtrl', ['$location', 'donationService', DonationCtrl])
 .controller('MainCtrl', [MainCtrl])
 .controller('AuthCtrl', ['$routeParams', '$location', 'authService', 'userService', AuthCtrl])
 .controller('ProfileCtrl', ['authService', ProfileCtrl]);
@@ -10,7 +11,6 @@ angular.module('salvage')
 function IndexCtrl($location, userService) {
   var vm = this;
   vm.logout = logout;
-
   vm.user = userService.getUser();
 
   if (userService.getLoginStatus()) {
@@ -42,6 +42,36 @@ function MapCtrl() {
       scrollwheel: false,
       zoom: 8
     });
+  }
+}
+
+function DonationCtrl($location, donationService) {
+  var vm = this;
+  vm.post = post;
+
+  function post(form, isValid) {
+    if (isValid) {
+      var donation = {};
+      if (form.category_compost.$modelValue) {
+        donation.category = 'compost';
+      } else if (form.category_donation.$modelValue) {
+        donation.category = 'food';
+      } else {
+        donation.category = 'both';
+      }
+      donation.details = form.details.$modelValue;
+      donation.amount = form.amount.$modelValue;
+      donation.status = 'pending';
+      donation.pickup_date = form.pickup_date.$modelValue;
+      donation.recipient = 0;
+      donationService.post(donation).then(function(res) {
+        if (res.status === 200) {
+          $location.path('/map');
+        }
+      }).catch(function(err) {
+        console.error(err);
+      });
+    }
   }
 }
 
