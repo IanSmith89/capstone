@@ -19,7 +19,6 @@ var orm = new Waterline();
 // Waterline Config
 
 // Require any waterline compatible adapters here
-var diskAdapter = require('sails-disk');
 var postgresqlAdapter = require('sails-postgresql');
 
 // Build A Config Object
@@ -28,17 +27,13 @@ var config = {
   // Setup Adapters
   // Creates named adapters that have been required
   adapters: {
-    'default': diskAdapter,
-    disk: diskAdapter,
+    'default': postgresqlAdapter,
     postgresql: postgresqlAdapter
   },
 
   // Build Connections Config
   // Setup connections using the named adapter configs
   connections: {
-    myLocalDisk: {
-      adapter: 'disk'
-    },
 
     myLocalPostgres: {
       adapter: 'postgresql',
@@ -57,8 +52,8 @@ var config = {
 
 var User = Waterline.Collection.extend({
 
-  identity: 'user',
-  connection: 'myLocalDisk',
+  identity: 'users',
+  connection: 'myLocalPostgres',
 
   attributes: {
     role: 'string',
@@ -76,15 +71,12 @@ var User = Waterline.Collection.extend({
     state: 'string',
     zip: 'integer',
     donations: {
-      collection: 'donation',
+      collection: 'donations',
       via: 'donor'
     },
     received: {
-      collection: 'donation',
+      collection: 'donations',
       via: 'recipient'
-    },
-    fullName: function() {
-      return this.first_name + ' ' + this.last_name;
     }
   },
 
@@ -95,27 +87,23 @@ var User = Waterline.Collection.extend({
 
 var Donation = Waterline.Collection.extend({
 
-  identity: 'donation',
+  identity: 'donations',
   connection: 'myLocalPostgres',
 
   attributes: {
-    type: {
-      type: 'string',
-      enum: ['donation', 'compost']
-    },
+    category: 'string',
     details: 'text',
     amount: 'integer',
     status: {
-        type: 'string',
-        defaultsTo: 'pending',
-        enum: ['pending', 'en_route', 'dropped']
+      type: 'string',
+      defaultsTo: 'pending'
     },
-    pickup_date: 'dateTime',
+    pickup_date: 'string',
     donor: {
-      model: 'user'
+      model: 'users'
     },
     recipient: {
-      model: 'user'
+      model: 'users'
     }
   },
 
@@ -143,7 +131,7 @@ app.use(cors(corsOptions));
 
 // GET '/users' shows admin page of all users
 app.get('/users', function(req, res) {
-  app.models.user.find().exec(function(err, users) {
+  app.models.users.find().exec(function(err, users) {
     if (err) {
       return res.status(500).json({err: err});
     }
@@ -154,7 +142,7 @@ app.get('/users', function(req, res) {
 // POST '/users' creates new user
 app.post('/users', function(req, res) {
   var user = req.body;
-  app.models.user.findOne({email: user.email}, function(err, model) {
+  app.models.users.findOne({email: user.email}, function(err, model) {
     if (model) {
       return res.status(500).json({err: 'email already exists'});
     } else {
@@ -172,7 +160,7 @@ app.post('/users', function(req, res) {
   }
 
   function createUser(user) {
-    app.models.user.create(user, function(err, model) {
+    app.models.users.create(user, function(err, model) {
       if (err) {
         return res.status(500).json({err: err});
       }
@@ -183,7 +171,7 @@ app.post('/users', function(req, res) {
 
 // GET '/users/:id' finds one user
 app.get('/users/:id', function(req, res) {
-  app.models.user.findOne({id: req.params.id}, function(err, model) {
+  app.models.users.findOne({id: req.params.id}).populate('donations').exec(function(err, model) {
     if (err) {
       return res.status(500).json({err: err});
     }
@@ -194,7 +182,7 @@ app.get('/users/:id', function(req, res) {
 // DELETE '/users/:id' deletes user
 app.delete('/users/:id', jwt({secret: process.env.JWTSECRET}), function(req, res) {
   if (req.user.role === 'admin' || req.user.id === req.params.id) {
-    app.models.user.destroy({id: req.params.id}, function(err) {
+    app.models.users.destroy({id: req.params.id}, function(err) {
       if (err) {
         return res.status(500).json({err: err});
       }
@@ -211,7 +199,70 @@ app.put('/users/:id', jwt({secret: process.env.JWTSECRET}), function(req, res) {
     var user = req.body;
     // Don't pass ID to update
     delete user.id;
-    app.models.user.update({id: req.params.id}, user, function(err, model) {
+    app.models.users.update({id: req.params.id}, user, function(err, model) {
+      if (err) {
+        return res.status(500).json({err: err});
+      }
+      res.json(model);
+    });
+  } else {
+    return res.status(401).json({err: 'unauthorized'});
+  }
+});
+
+// GET '/donations' shows all donations
+app.get('/donations', function(req, res) {
+  app.models.donations.find().exec(function(err, donations) {
+    if (err) {
+      return res.status(500).json({err: err});
+    }
+    res.json(donations);
+  });
+});
+
+// POST '/donations' creates new donation
+app.post('/donations', jwt({secret: process.env.JWTSECRET}), function(req, res) {
+  var donation = req.body;
+  donation.donor = req.user.id;
+  app.models.donations.create(donation, function(err, model) {
+    if (err) {
+      return res.status(500).json({err: err});
+    }
+    res.json(model);
+  });
+});
+
+// GET '/donations/:id' finds one donation
+app.get('/donations/:id', function(req, res) {
+  app.models.donations.findOne({id: req.params.id}, function(err, model) {
+    if (err) {
+      return res.status(500).json({err: err});
+    }
+    res.json(model);
+  });
+});
+
+// DELETE '/donations/:id' deletes donation
+app.delete('/donations/:id', jwt({secret: process.env.JWTSECRET}), function(req, res) {
+  if (req.user.role === 'admin' || req.donation.id === req.params.id) {
+    app.models.donations.destroy({id: req.params.id}, function(err) {
+      if (err) {
+        return res.status(500).json({err: err});
+      }
+      res.json({status: 'donation deleted'});
+    });
+  } else {
+    return res.status(401).json({err: 'unauthorized'});
+  }
+});
+
+// PUT '/donations/:id' edits/updates one donation
+app.put('/donations/:id', jwt({secret: process.env.JWTSECRET}), function(req, res) {
+  if (req.user.role === 'admin' || req.donation.id === req.params.id) {
+    var donation = req.body;
+    // Don't pass ID to update
+    delete donation.id;
+    app.models.donations.update({id: req.params.id}, donation, function(err, model) {
       if (err) {
         return res.status(500).json({err: err});
       }
@@ -224,7 +275,7 @@ app.put('/users/:id', jwt({secret: process.env.JWTSECRET}), function(req, res) {
 
 // POST '/login' authenticates user and sends JWT
 app.post('/login', function(req, res) {
-  app.models.user.findOne({email: req.body.email}, function(err, model) {
+  app.models.users.findOne({email: req.body.email}, function(err, model) {
     if (err) {
       return res.status(500).json({err: 'failed to authenticate'});
     } else {

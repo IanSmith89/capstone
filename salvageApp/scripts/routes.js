@@ -25,6 +25,9 @@ function routes($routeProvider) {
     .when('/user/:id', {
       templateUrl: 'templates/profile.html',
       controller: 'ProfileCtrl as PC'
+    })
+    .otherwise({
+      redirectTo: '/'
     });
 }
 

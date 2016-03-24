@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/IanSmith89/capstone#readme",
   "dependencies": {
-    "angular-google-maps": "^2.3.2",
     "bcrypt": "^0.8.5",
     "body-parser": "^1.15.0",
     "cors": "^2.7.1",
@@ -28,7 +27,6 @@
     "jsonwebtoken": "^5.7.0",
     "lodash": "^4.6.1",
     "method-override": "^2.3.5",
-    "sails-disk": "^0.10.9",
     "sails-postgresql": "^0.11.3",
     "waterline": "^0.11.0"
   }
