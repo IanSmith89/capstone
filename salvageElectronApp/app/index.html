@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html ng-app="salvage">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Salvage</title>
+  <link rel="stylesheet" href="../bower_components/angular-material/angular-material.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans:400,100,200,300,500,600,700,800,900" type="text/css">
+  <link rel="stylesheet" href="./styles/css/styles.css" />
+</head>
+
+<body ng-controller="IndexCtrl as IC" ng-cloak>
+  <div class="container">
+    <nav class="navbar navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#/">salvage</a>
+        </div>
+        <div class="navbar navbar-collapse navbar-left">
+          <ul class="nav navbar-nav">
+            <li>
+              <a href="#">About</a>
+            </li>
+            <li>
+              <a href="#/map">Map</a>
+            </li>
+            <li>
+              <a href="#">Post</a>
+            </li>
+            <li>
+              <a href="#">Request</a>
+            </li>
+            <li>
+              <a href="#">Log</a>
+            </li>
+          </ul>
+        </div>
+        <div class="navbar navbar-collapse navbar-right">
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{IC.user.handle || 'Users'}} <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="#">Donor Registration</a>
+                </li>
+                <li>
+                  <a href="#">Recipient Registration</a>
+                </li>
+                <li ng-hide="!IC.user.loggedIn">
+                  <a href="#/user">User Profile</a>
+                </li>
+                <li ng-hide="IC.user.loggedIn">
+                  <a href="#/login">Login</a>
+                </li>
+                <li ng-hide="!IC.user.loggedIn">
+                  <a href="" ng-click="IC.logout()">Logout</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+  <main ng-view></main>
+
+  <!-- build:js scripts/vendor.js -->
+  <script>window.$ = window.jQuery = require('jquery');</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
+
+  <script src="../bower_components/angular/angular.js"></script>
+  <script src="../bower_components/angular-route/angular-route.js"></script>
+  <script src="../bower_components/angular-animate/angular-animate.js"></script>
+  <script src="../bower_components/angular-aria/angular-aria.js"></script>
+  <script src="../bower_components/angular-material/angular-material.js"></script>
+  <script src="../bower_components/ngmap/build/scripts/ng-map.min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js" async defer></script>
+  <!-- endbuild -->
+
+  <!-- build:app scripts/app.js -->
+  <script src="./scripts/app.js"></script>
+  <script src="./scripts/services.js"></script>
+  <script src="./scripts/controllers.js"></script>
+  <script src="./scripts/directives.js"></script>
+  <script src="./scripts/routes.js"></script>
+  <!-- endbuild -->
+</body>
+
+</html>

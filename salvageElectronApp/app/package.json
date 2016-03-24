@@ -1,0 +1,21 @@
+{
+  "name": "AnglularElectron",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "dependencies": {
+    "asar": "^0.10.0",
+    "electron-prebuilt": "^0.37.2",
+    "fs-jetpack": "^0.7.3",
+    "gulp": "^3.9.1",
+    "jquery": "^2.2.2",
+    "q": "^1.4.1",
+    "rcedit": "^0.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Ian Smith",
+  "license": "ISC"
+}
