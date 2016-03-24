@@ -98,7 +98,7 @@ function userService($http, $location) {
 
 function donationService($http, $location) {
   return {
-    get: getDonations,
+    getAll: getDonations,
     post: postDonation,
     getById: getDonationById,
     update: updateDonation,
@@ -159,7 +159,7 @@ function authInterceptor($location, $q) {
     responseError: function(err) {
       if (err.data === 'invalid token' || err.data === 'invalid signature' || err.data === 'jwt malformed' || err.status === 401) {
         localStorage.clear();
-        $location.path('#/login');
+        $location.path('/login');
         return $q.reject(err);
       }
       return $q.reject(err);

@@ -1,0 +1,45 @@
+<div class="row">
+  <div class="col-md-offset-1 col-md-10">
+    <h2>Posted Donations</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>
+            Donor
+          </th>
+          <th>
+            Category
+          </th>
+          <th>
+            Details
+          </th>
+          <th>
+            Estimated Weight
+          </th>
+          <th>
+            Pickup Date
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="donation in DC.donations">
+          <td>
+            {{donation.donor}}
+          </td>
+          <td>
+            {{donation.category}}
+          </td>
+          <td>
+            {{donation.details}}
+          </td>
+          <td>
+            {{donation.amount}} lbs.
+          </td>
+          <td>
+            {{donation.pickup_date | date : format : 'longDate'}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -18,6 +18,10 @@ function routes($routeProvider) {
       templateUrl: 'templates/donation.html',
       controller: 'DonationCtrl as DC'
     })
+    .when('/posts', {
+      templateUrl: 'templates/posts.html',
+      controller: 'DonationCtrl as DC'
+    })
     .when('/login', {
       templateUrl: 'templates/login.html',
       controller: 'AuthCtrl as AC'

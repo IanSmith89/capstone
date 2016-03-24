@@ -47,23 +47,59 @@ function MapCtrl() {
 
 function DonationCtrl($location, donationService) {
   var vm = this;
+  vm.donations = get();
   vm.post = post;
+
+  // DatePicker
+  vm.today = today;
+  vm.today();
+  vm.clear = clear;
+  vm.dateOptions = {
+    // dateDisabled: disabled, // Uncomment to allow for disabling certain days
+    formatYear: 'yy',
+    maxDate: new Date(2020, 5, 22),
+    minDate: new Date(),
+    startingDay: 0
+  };
+  vm.open = open;
+  vm.setDate = setDate;
+  vm.altInputFormats = ['M!/d!/yyyy'];
+  vm.popup = {
+    opened: false
+  };
+  var tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  var afterTomorrow = new Date();
+  afterTomorrow.setDate(tomorrow.getDate() + 1);
+  vm.events = [
+    {
+      date: tomorrow,
+      status: 'full'
+    },
+    {
+      date: afterTomorrow,
+      status: 'partially'
+    }
+  ];
+
+  function get() {
+    donationService.getAll().then(function(res) {
+      if (res.status === 200) {
+        vm.donations = res.data;
+        // console.log(res);
+      }
+    }).catch(function(err) {
+      console.error(err);
+    });
+  }
 
   function post(form, isValid) {
     if (isValid) {
       var donation = {};
-      if (form.category_compost.$modelValue) {
-        donation.category = 'compost';
-      } else if (form.category_donation.$modelValue) {
-        donation.category = 'food';
-      } else {
-        donation.category = 'both';
-      }
+      donation.category = form.category.$modelValue;
       donation.details = form.details.$modelValue;
       donation.amount = form.amount.$modelValue;
-      donation.status = 'pending';
       donation.pickup_date = form.pickup_date.$modelValue;
-      donation.recipient = 0;
       donationService.post(donation).then(function(res) {
         if (res.status === 200) {
           $location.path('/map');
@@ -73,6 +109,29 @@ function DonationCtrl($location, donationService) {
       });
     }
   }
+
+  function today() {
+    vm.pickup_date = new Date();
+  }
+
+  function clear() {
+    vm.pickup_date = null;
+  }
+
+  function open() {
+    vm.popup.opened = true;
+  }
+
+  function setDate(year, month, day) {
+    vm.pickup_date = new Date(year, month, day);
+  }
+
+  // Disable weekend selection
+  // function disabled(data) {
+  //   var date = data.date,
+  //     mode = data.mode;
+  //   return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
+  // }
 }
 
 function MainCtrl() {
@@ -112,11 +171,8 @@ function AuthCtrl($routeParams, $location, authService, userService) {
       user.last_name = form.last_name.$modelValue;
       user.email = form.email.$modelValue;
       user.password = form.password.$modelValue;
-      if (form.address2.$modelValue) {
-        user.address = form.address1.$modelValue + ', ' + form.address2.$modelValue;
-      } else {
-        user.address = form.address1.$modelValue;
-      }
+      user.phone = form.phone.$modelValue;
+      user.address = form.address1.$modelValue;
       user.city = form.city.$modelValue;
       user.state = form.state.$modelValue;
       user.zip = form.zip.$modelValue;
@@ -125,7 +181,9 @@ function AuthCtrl($routeParams, $location, authService, userService) {
       }
 
       authService.register(user).then(function(res) {
-        console.log(res);
+        if (res.status === 200) {
+          $location.path('/login');
+        }
       }).catch(function(err) {
         console.error(err);
       });

@@ -94,11 +94,8 @@ var Donation = Waterline.Collection.extend({
     category: 'string',
     details: 'text',
     amount: 'integer',
-    status: {
-      type: 'string',
-      defaultsTo: 'pending'
-    },
-    pickup_date: 'string',
+    pickup_date: 'dateTime',
+    pickup_address: 'string',
     donor: {
       model: 'users'
     },
@@ -216,14 +213,19 @@ app.get('/donations', function(req, res) {
     if (err) {
       return res.status(500).json({err: err});
     }
+    // app.models.donations.add(donations.id);
+    // app.models.donations.save(function(err){});
     res.json(donations);
+    console.log(donations);
   });
 });
 
 // POST '/donations' creates new donation
 app.post('/donations', jwt({secret: process.env.JWTSECRET}), function(req, res) {
   var donation = req.body;
+  donation.pickup_address = req.user.address + ', ' + req.user.city + ', ' + req.user.state + ', ' + req.user.zip;
   donation.donor = req.user.id;
+  donation.recipient = 0;
   app.models.donations.create(donation, function(err, model) {
     if (err) {
       return res.status(500).json({err: err});

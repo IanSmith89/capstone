@@ -4,18 +4,19 @@
     <form name="donation" ng-submit="DC.post(donation, donation.$valid); donation.$setPristine();" novalidate>
       <div class="form-group">
         <label for="category">Category</label>
-        <div class="checkbox">
-          <label for="category_donation">
-            <input type="checkbox" name="category_donation" ng-model="category.donation"/>
+        <div class="radio">
+          <label for="category.donation">
+            <input type="radio" name="category" value="food" ng-model="category" ng-required="!category"/>
             Excess food donation
           </label>
         </div>
-        <div class="checkbox">
-          <label for="cactegory_compost">
-            <input type="checkbox" name="category_compost" ng-model="category.compost"/>
+        <div class="radio">
+          <label for="category.compost">
+            <input type="radio" name="category" value="compost" ng-model="category" ng-required="!category"/>
             Compost/Food Scraps
           </label>
         </div>
+        <span ng-show="donation.category.$error.required && !donation.category.$pristine" class="help-block">Must select a category</span>
       </div>
       <div class="form-group">
         <label for="details">Details</label>
@@ -28,10 +29,18 @@
         <input type="number" name="amount" class="form-control" ng-model="amount" placeholder="lbs" required/>
       </div>
       <div class="form-group">
-        <label for="pickup_date">Preferred Pickup Date/Time</label>
-        <input type="datetime" name="pickup_date" class="form-control" ng-model="pickup_date" requried />
+        <label for="pickup_date">Preferred Pickup Date</label>
+        <div class="input-group">
+          <input type="text" name="pickup_date" class="form-control" uib-datepicker-popup="shortDate" ng-model="pickup_date" is-open="DC.popup.opened" datepicker-options="DC.dateOptions" close-text="Close" alt-input-formats="DC.altInputFormats" required/>
+          <div class="input-group-addon">
+            <a href="" ng-click="DC.open()"><i class="glyphicon glyphicon-calendar"></i></a>
+          </div>
+        </div>
       </div>
       <button type="submit" class="btn btn-default" ng-disabled="donation.$invalid">Submit</button>
     </form>
+    <span ng-hide="donation.$valid">
+      * All fields required
+    </span>
   </div>
 </div>
