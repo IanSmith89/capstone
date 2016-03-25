@@ -2,11 +2,12 @@
 
 angular.module('salvage')
 .controller('IndexCtrl', ['$location', 'userService', IndexCtrl])
-.controller('MapCtrl', [MapCtrl])
+.controller('MapCtrl', ['donationService', MapCtrl])
 .controller('DonationCtrl', ['$location', 'donationService', DonationCtrl])
+.controller('LogCtrl', ['$routeParams', 'userService', LogCtrl])
 .controller('MainCtrl', [MainCtrl])
 .controller('AuthCtrl', ['$routeParams', '$location', 'authService', 'userService', AuthCtrl])
-.controller('ProfileCtrl', ['authService', ProfileCtrl]);
+.controller('ProfileCtrl', ['userService', ProfileCtrl]);
 
 function IndexCtrl($location, userService) {
   var vm = this;
@@ -31,9 +32,20 @@ function IndexCtrl($location, userService) {
   }
 }
 
-function MapCtrl() {
+function MapCtrl(donationService) {
   var vm = this;
   vm.initMap = initMap();
+  vm.donations = get();
+
+  function get() {
+    donationService.getAll().then(function(res) {
+      if (res.status === 200) {
+        vm.donations = res.data;
+      }
+    }).catch(function(err) {
+      console.error(err);
+    });
+  }
 
   function initMap() {
     // Create a map object and specify the DOM element for display.
@@ -47,7 +59,6 @@ function MapCtrl() {
 
 function DonationCtrl($location, donationService) {
   var vm = this;
-  vm.donations = get();
   vm.post = post;
 
   // DatePicker
@@ -81,17 +92,6 @@ function DonationCtrl($location, donationService) {
       status: 'partially'
     }
   ];
-
-  function get() {
-    donationService.getAll().then(function(res) {
-      if (res.status === 200) {
-        vm.donations = res.data;
-        // console.log(res);
-      }
-    }).catch(function(err) {
-      console.error(err);
-    });
-  }
 
   function post(form, isValid) {
     if (isValid) {
@@ -132,6 +132,25 @@ function DonationCtrl($location, donationService) {
   //     mode = data.mode;
   //   return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
   // }
+}
+
+function LogCtrl($routeParams, userService) {
+  var vm = this;
+  vm.$routeParams = $routeParams;
+  vm.donations = getById();
+
+  function getById() {
+    var user = userService.User().then(function(res) {
+      var user = userService.getUser();
+      var userId = res.data.id;
+      userService.getById(userId).then(function(res) {
+        vm.handle = user.handle;
+        vm.donations = res.data.donations;
+      });
+    }).catch(function(err) {
+      console.error(err);
+    });
+  }
 }
 
 function MainCtrl() {
@@ -191,12 +210,21 @@ function AuthCtrl($routeParams, $location, authService, userService) {
   }
 }
 
-function ProfileCtrl(authService) {
+function ProfileCtrl(userService) {
   var vm = this;
+  vm.update = update;
   vm.destroy = destroy;
 
-  function destroy(user) {
-    authService.destroy(user).then(function(res) {
+  function update(userId, newData) {
+    userService.update(userId, newData).then(function(res) {
+      console.log(res);
+    }).catch(function(err) {
+      console.error(err);
+    });
+  }
+
+  function destroy(userId) {
+    userService.destroy(userId).then(function(res) {
       console.log(res);
     }).catch(function(err) {
       console.error(err);

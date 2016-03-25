@@ -9,8 +9,7 @@ angular.module('salvage')
 function authService($http) {
   return {
     login: login,
-    register: register,
-    destroy: deleteUser
+    register: register
   };
 
   function login(user) {
@@ -23,14 +22,6 @@ function authService($http) {
 
   function register(user) {
     return $http.post('http://localhost:3000/users', user).then(function(response) {
-      return response;
-    }, function(err) {
-      if (err) {throw err;}
-    });
-  }
-
-  function deleteUser(user) {
-    return $http.delete('http://localhost:3000/users/' + user.id).then(function(response) {
       return response;
     }, function(err) {
       if (err) {throw err;}
@@ -49,6 +40,9 @@ function userService($http, $location) {
     User: dataFromServer,
     getUser: getUser,
     setUser: setUser,
+    getById: getById,
+    update: update,
+    destroy: deleteUser,
     getLoginStatus: checkLogin,
     logout: logout
   };
@@ -74,6 +68,30 @@ function userService($http, $location) {
 
   function setUser(user) {
     userData = user;
+  }
+
+  function getById(id) {
+    return $http.get('http://localhost:3000/users/' + id).then(function(response) {
+      return response;
+    }, function(err) {
+      if (err) {throw err;}
+    });
+  }
+
+  function update(id, user) {
+    return $http.put('http://localhost:3000/users/' + id, user).then(function(response) {
+      return response;
+    }, function(err) {
+      if (err) {throw err;}
+    });
+  }
+
+  function deleteUser(user) {
+    return $http.delete('http://localhost:3000/users/' + user.id).then(function(response) {
+      return response;
+    }, function(err) {
+      if (err) {throw err;}
+    });
   }
 
   function checkLogin() {

@@ -223,13 +223,16 @@ app.get('/donations', function(req, res) {
 // POST '/donations' creates new donation
 app.post('/donations', jwt({secret: process.env.JWTSECRET}), function(req, res) {
   var donation = req.body;
-  donation.pickup_address = req.user.address + ', ' + req.user.city + ', ' + req.user.state + ', ' + req.user.zip;
   donation.donor = req.user.id;
+  donation.pickup_address = req.user.address + ', ' + req.user.city + ', ' + req.user.state + ', ' + req.user.zip;
   donation.recipient = 0;
   app.models.donations.create(donation, function(err, model) {
     if (err) {
       return res.status(500).json({err: err});
     }
+    // app.models.donations.query('SELECT * FROM users WHERE id = ' + donation.donor, function(err, results) {
+    //   console.log(results.rows[0]);
+    // });
     res.json(model);
   });
 });
