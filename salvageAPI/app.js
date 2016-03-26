@@ -140,6 +140,9 @@ app.get('/users', function(req, res) {
 app.post('/users', function(req, res) {
   var user = req.body;
   app.models.users.findOne({email: user.email}, function(err, model) {
+    if (err) {
+      return res.status(500).json({err: err});
+    }
     if (model) {
       return res.status(500).json({err: 'email already exists'});
     } else {
@@ -178,7 +181,7 @@ app.get('/users/:id', function(req, res) {
 
 // DELETE '/users/:id' deletes user
 app.delete('/users/:id', jwt({secret: process.env.JWTSECRET}), function(req, res) {
-  if (req.user.role === 'admin' || req.user.id === req.params.id) {
+  if (req.user.role === 'admin' || req.user.id === Number(req.params.id)) {
     app.models.users.destroy({id: req.params.id}, function(err) {
       if (err) {
         return res.status(500).json({err: err});
@@ -192,7 +195,7 @@ app.delete('/users/:id', jwt({secret: process.env.JWTSECRET}), function(req, res
 
 // PUT '/users/:id' edits/updates one user
 app.put('/users/:id', jwt({secret: process.env.JWTSECRET}), function(req, res) {
-  if (req.user.role === 'admin' || req.user.id === req.params.id) {
+  if (req.user.role === 'admin' || req.user.id === Number(req.params.id)) {
     var user = req.body;
     // Don't pass ID to update
     delete user.id;
@@ -290,7 +293,7 @@ app.post('/login', function(req, res) {
           delete user.password;
           var secret = process.env.JWTSECRET;
           var options = {
-            expiresIn: 3600
+            expiresIn: 14400
           };
           jsonWebToken.sign(user, secret, options, function(token) {
             res.json({token: token, user: user});

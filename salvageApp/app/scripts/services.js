@@ -86,8 +86,8 @@ function userService($http, $location) {
     });
   }
 
-  function deleteUser(user) {
-    return $http.delete('http://localhost:3000/users/' + user.id).then(function(response) {
+  function deleteUser(userId) {
+    return $http.delete('http://localhost:3000/users/' + userId).then(function(response) {
       return response;
     }, function(err) {
       if (err) {throw err;}

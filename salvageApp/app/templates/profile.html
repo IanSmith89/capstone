@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-offset-2 col-md-8">
-    <h2>User profile</h2>
-    <a href="" ng-click="PC.destroy(userId)">Delete User</a>
+    <h2>User profile: {{PC.handle}}</h2>
+    <a href="" ng-click="PC.destroy(PC.user.user.id)">Delete User</a>
   </div>
 </div>

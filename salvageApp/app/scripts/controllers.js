@@ -141,7 +141,7 @@ function LogCtrl($routeParams, userService) {
 
   function getById() {
     var user = userService.User().then(function(res) {
-      var user = userService.getUser();
+      user = userService.getUser();
       var userId = res.data.id;
       userService.getById(userId).then(function(res) {
         vm.handle = user.handle;
@@ -195,8 +195,10 @@ function AuthCtrl($routeParams, $location, authService, userService) {
       user.city = form.city.$modelValue;
       user.state = form.state.$modelValue;
       user.zip = form.zip.$modelValue;
-      if (form.organization) {
+      if (form.organization.$modelValue) {
         user.organization = form.organization.$modelValue;
+      } else {
+        user.organization = 'Individual Donor';
       }
 
       authService.register(user).then(function(res) {
@@ -212,6 +214,8 @@ function AuthCtrl($routeParams, $location, authService, userService) {
 
 function ProfileCtrl(userService) {
   var vm = this;
+  vm.user = userService.getUser();
+  vm.handle = vm.user.handle;
   vm.update = update;
   vm.destroy = destroy;
 
@@ -224,10 +228,13 @@ function ProfileCtrl(userService) {
   }
 
   function destroy(userId) {
-    userService.destroy(userId).then(function(res) {
-      console.log(res);
-    }).catch(function(err) {
-      console.error(err);
-    });
+    if (confirm('Are you sure you want to delete your profile?')) {
+      userService.destroy(userId).then(function(res) {
+        userService.logout();
+        // TODO change user handle in menu bar back to "Users"
+      }).catch(function(err) {
+        console.error(err);
+      });
+    }
   }
 }
