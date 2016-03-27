@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('salvage')
-  .controller('IndexCtrl', ['$location', 'userService', IndexCtrl])
-  .controller('MapCtrl', ['donationService', 'userService', MapCtrl])
-  .controller('DonationCtrl', ['$location', 'donationService', DonationCtrl])
-  .controller('LogCtrl', ['$routeParams', 'userService', LogCtrl])
-  .controller('MainCtrl', [MainCtrl])
-  .controller('AuthCtrl', ['$routeParams', '$location', 'authService', 'userService', 'coordService', AuthCtrl])
-  .controller('ProfileCtrl', ['userService', ProfileCtrl]);
+.controller('IndexCtrl', ['$location', 'userService', IndexCtrl])
+.controller('MapCtrl', ['donationService', 'userService', MapCtrl])
+.controller('DonationCtrl', ['$location', 'donationService', DonationCtrl])
+.controller('LogCtrl', ['$routeParams', 'userService', LogCtrl])
+.controller('MainCtrl', [MainCtrl])
+.controller('AuthCtrl', ['$routeParams', '$location', 'authService', 'userService', 'coordService', AuthCtrl])
+.controller('ProfileCtrl', ['userService', ProfileCtrl]);
 
 function IndexCtrl($location, userService) {
   var vm = this;
@@ -238,14 +238,6 @@ function AuthCtrl($routeParams, $location, authService, userService, coordServic
       } else {
         user.organization = 'Individual Donor';
       }
-
-      var test = coordService.getLatLong(user.city, user.state).then(function(res) {
-        console.log(res);
-      }).catch(function(err) {
-        console.error(err);
-      });
-
-      console.log(test);
 
       authService.register(user).then(function(res) {
         if (res.status === 200) {
