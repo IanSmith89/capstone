@@ -6,7 +6,7 @@ body {
   font-family: 'Work Sans', sans-serif;
   background: #2bb673;
   color: white;
-  padding-top: 70px; }
+  padding: 70px 15px 0 15px; }
 
 nav {
   background: #2bb673; }

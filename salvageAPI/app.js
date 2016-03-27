@@ -171,12 +171,21 @@ app.post('/users', function(req, res) {
 
 // GET '/users/:id' finds one user
 app.get('/users/:id', function(req, res) {
-  app.models.users.findOne({id: req.params.id}).populate('donations').exec(function(err, model) {
-    if (err) {
-      return res.status(500).json({err: err});
-    }
-    res.json(model);
-  });
+  if (req.params.id === 'recipient') {
+    app.models.users.find({role: req.params.id}).exec(function(err, users) {
+      if (err) {
+        return res.status(500).json({err: err});
+      }
+      res.json(users);
+    });
+  } else {
+    app.models.users.findOne({id: req.params.id}).populate('donations').exec(function(err, model) {
+      if (err) {
+        return res.status(500).json({err: err});
+      }
+      res.json(model);
+    });
+  }
 });
 
 // DELETE '/users/:id' deletes user
@@ -219,7 +228,6 @@ app.get('/donations', function(req, res) {
     // app.models.donations.add(donations.id);
     // app.models.donations.save(function(err){});
     res.json(donations);
-    console.log(donations);
   });
 });
 

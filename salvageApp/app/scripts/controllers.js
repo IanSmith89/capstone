@@ -2,7 +2,7 @@
 
 angular.module('salvage')
   .controller('IndexCtrl', ['$location', 'userService', IndexCtrl])
-  .controller('MapCtrl', ['donationService', MapCtrl])
+  .controller('MapCtrl', ['donationService', 'userService', MapCtrl])
   .controller('DonationCtrl', ['$location', 'donationService', DonationCtrl])
   .controller('LogCtrl', ['$routeParams', 'userService', LogCtrl])
   .controller('MainCtrl', [MainCtrl])
@@ -32,20 +32,11 @@ function IndexCtrl($location, userService) {
   }
 }
 
-function MapCtrl(donationService) {
+function MapCtrl(donationService, userService) {
   var vm = this;
   vm.initMap = initMap;
-  vm.donations = get();
-
-  function get() {
-    donationService.getAll().then(function(res) {
-      if (res.status === 200) {
-        vm.donations = res.data;
-      }
-    }).catch(function(err) {
-      console.error(err);
-    });
-  }
+  vm.donations = getDonations();
+  vm.recipients = getRecipients();
 
   function initMap() {
     var styleArray = [{
@@ -77,6 +68,26 @@ function MapCtrl(donationService) {
       },
       scrollwheel: false,
       zoom: 8
+    });
+  }
+
+  function getDonations() {
+    donationService.getAll().then(function(res) {
+      if (res.status === 200) {
+        vm.donations = res.data;
+      }
+    }).catch(function(err) {
+      console.error(err);
+    });
+  }
+
+  function getRecipients() {
+    userService.getById('recipient').then(function(res) {
+      if (res.status === 200) {
+        vm.recipients = res.data;
+      }
+    }).catch(function(err) {
+      console.error(err);
     });
   }
 }
