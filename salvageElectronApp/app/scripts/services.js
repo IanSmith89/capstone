@@ -3,19 +3,20 @@
 angular.module('salvage')
 .service('authService', ['$http', authService])
 .service('userService', ['$http', '$location', userService])
+.service('donationService', ['$http', '$location', donationService])
 .factory('authInterceptor', ['$location', '$q', authInterceptor]);
 
 function authService($http) {
-  this.name = '';
-  this.login = login;
-  this.register = register;
-  this.destroy = destroy;
+  return {
+    login: login,
+    register: register
+  };
 
   function login(user) {
     return $http.post('http://localhost:3000/login', user).then(function(response) {
       return response;
     }, function(err) {
-      throw err;
+      if (err) {throw err;}
     });
   }
 
@@ -23,30 +24,27 @@ function authService($http) {
     return $http.post('http://localhost:3000/users', user).then(function(response) {
       return response;
     }, function(err) {
-      throw err;
-    });
-  }
-
-  function destroy(user) {
-    return $http.delete('http://localhost:3000/users/' + user.id).then(function(response) {
-      return response;
-    }, function(err) {
-      throw err;
+      if (err) {throw err;}
     });
   }
 }
 
 function userService($http, $location) {
-  this.User = dataFromServer;
-  this.getUser = getUser;
-  this.setUser = setUser;
-  this.getLoginStatus = checkLogin;
-  this.logout = logout;
-
   var userData = {
     user: {},
     handle: 'Users',
     loggedIn: false
+  };
+
+  return {
+    User: dataFromServer,
+    getUser: getUser,
+    setUser: setUser,
+    getById: getById,
+    update: update,
+    destroy: deleteUser,
+    getLoginStatus: checkLogin,
+    logout: logout
   };
 
   function dataFromServer() {
@@ -60,7 +58,7 @@ function userService($http, $location) {
       }
       return response;
     }, function(err) {
-      throw err;
+      if (err) {throw err;}
     });
   }
 
@@ -70,6 +68,30 @@ function userService($http, $location) {
 
   function setUser(user) {
     userData = user;
+  }
+
+  function getById(id) {
+    return $http.get('http://localhost:3000/users/' + id).then(function(response) {
+      return response;
+    }, function(err) {
+      if (err) {throw err;}
+    });
+  }
+
+  function update(id, user) {
+    return $http.put('http://localhost:3000/users/' + id, user).then(function(response) {
+      return response;
+    }, function(err) {
+      if (err) {throw err;}
+    });
+  }
+
+  function deleteUser(userId) {
+    return $http.delete('http://localhost:3000/users/' + userId).then(function(response) {
+      return response;
+    }, function(err) {
+      if (err) {throw err;}
+    });
   }
 
   function checkLogin() {
@@ -92,6 +114,56 @@ function userService($http, $location) {
   }
 }
 
+function donationService($http, $location) {
+  return {
+    getAll: getDonations,
+    post: postDonation,
+    getById: getDonationById,
+    update: updateDonation,
+    destroy: deleteDonation
+  };
+
+  function getDonations() {
+    return $http.get('http://localhost:3000/donations').then(function(response) {
+      return response;
+    }, function(err) {
+      if (err) {throw err;}
+    });
+  }
+
+  function postDonation(donation) {
+    return $http.post('http://localhost:3000/donations', donation).then(function(response) {
+      return response;
+    }, function(err) {
+      if (err) {throw err;}
+    });
+  }
+
+  function getDonationById(id) {
+    return $http.get('http://localhost:3000/donations/' + id).then(function(response) {
+      return response;
+    }, function(err) {
+      if (err) {throw err;}
+    });
+  }
+
+  function updateDonation(id, donation) {
+    return $http.put('http://localhost:3000/donations/' + id, donation).then(function(response) {
+      return response;
+    }, function(err) {
+      if (err) {throw err;}
+    });
+  }
+
+  function deleteDonation(id) {
+    return $http.delete('http://localhost:3000/donations/' + id).then(function(response) {
+      return response;
+    }, function(err) {
+      if (err) {throw err;}
+    });
+  }
+}
+
 function authInterceptor($location, $q) {
   return {
     request: function(config) {
@@ -105,7 +177,7 @@ function authInterceptor($location, $q) {
     responseError: function(err) {
       if (err.data === 'invalid token' || err.data === 'invalid signature' || err.data === 'jwt malformed' || err.status === 401) {
         localStorage.clear();
-        $location.path('#/login');
+        $location.path('/login');
         return $q.reject(err);
       }
       return $q.reject(err);

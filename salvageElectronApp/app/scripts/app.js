@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('salvage', ['ngRoute', 'ngMap', 'ngMaterial', 'ngAnimate']);
+angular.module('salvage', ['ngRoute', 'ngMap', 'ui.bootstrap']);

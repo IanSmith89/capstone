@@ -30,12 +30,16 @@
           <input type="password" name="password_c" class="form-control" ng-model="password_c" placeholder="Re-type Password" compare-password required />
           <span ng-show="registration.password_c.$error.match && !registration.password_c.$pristine" class="help-block">Passwords do not match</span>
         </div>
-        <input type="button" class="btn btn-default" ng-disabled="registration.first_name.$invalid || registration.last_name.$invalid || registration.email.$invalid || registration.password.$invalid || registration.password_c.$invalid;" ng-click="AC.stepOne = 'complete'" value="Next Step" />
+        <input type="button" class="btn btn-default" ng-disabled="registration.$invalid;" ng-click="AC.stepOne = 'complete'" value="Next Step" />
       </div>
       <div ng-show="AC.stepOne === 'complete'">
         <div class="form-group">
           <label for="organization">Organization</label>
           <input type="text" name="organization" class="form-control" ng-model="organization" placeholder="Organization" />
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="text" name="phone" class="form-control" ng-model="phone" placeholder="Phone Number" />
         </div>
         <div class="form-group">
           <label for="address">Address</label>
@@ -211,7 +215,7 @@
         <button type="submit" class="btn btn-default">Register</button>
       </div>
     </form>
-    <span>
+    <span ng-hide="registration.$valid">
       * All fields required
     </span>
   </div>

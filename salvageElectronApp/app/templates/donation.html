@@ -1,0 +1,46 @@
+<div class="row">
+  <div class="col-md-offset-4 col-md-4">
+    <h2 calss="text-center">Post a Donation</h2>
+    <form name="donation" ng-submit="DC.post(donation, donation.$valid); donation.$setPristine();" novalidate>
+      <div class="form-group">
+        <label for="category">Category</label>
+        <div class="radio">
+          <label for="category.donation">
+            <input type="radio" name="category" value="Food" ng-model="category" ng-required="!category"/>
+            Excess food donation
+          </label>
+        </div>
+        <div class="radio">
+          <label for="category.compost">
+            <input type="radio" name="category" value="Compost" ng-model="category" ng-required="!category"/>
+            Compost/Food Scraps
+          </label>
+        </div>
+        <span ng-show="donation.category.$error.required && !donation.category.$pristine" class="help-block">Must select a category</span>
+      </div>
+      <div class="form-group">
+        <label for="details">Details</label>
+        <textarea name="details" class="form-control" ng-model="details" placeholder="Quick item description..." ng-minlength="3" ng-maxlength="255" required></textarea>
+        <span ng-show="donation.details.$error.minlength" class="help-block">Must be at least 3 characters</span>
+        <span ng-show="donation.details.$error.maxlength" class="help-block">Must be less than 255 characters</span>
+      </div>
+      <div class="form-group">
+        <label for="amount">Estimated Weight</label>
+        <input type="number" name="amount" class="form-control" ng-model="amount" placeholder="lbs" required/>
+      </div>
+      <div class="form-group">
+        <label for="pickup_date">Preferred Pickup Date</label>
+        <div class="input-group">
+          <input type="text" name="pickup_date" class="form-control" uib-datepicker-popup="shortDate" ng-model="pickup_date" is-open="DC.popup.opened" datepicker-options="DC.dateOptions" close-text="Close" alt-input-formats="DC.altInputFormats" required/>
+          <div class="input-group-addon">
+            <a href="" ng-click="DC.open()"><i class="glyphicon glyphicon-calendar"></i></a>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-default" ng-disabled="donation.$invalid">Submit</button>
+    </form>
+    <span ng-hide="donation.$valid">
+      * All fields required
+    </span>
+  </div>
+</div>

@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('salvage')
-.controller('IndexCtrl', ['$location', 'userService', IndexCtrl])
-.controller('MapCtrl', ['donationService', MapCtrl])
-.controller('DonationCtrl', ['$location', 'donationService', DonationCtrl])
-.controller('LogCtrl', ['$routeParams', 'userService', LogCtrl])
-.controller('MainCtrl', [MainCtrl])
-.controller('AuthCtrl', ['$routeParams', '$location', 'authService', 'userService', AuthCtrl])
-.controller('ProfileCtrl', ['userService', ProfileCtrl]);
+  .controller('IndexCtrl', ['$location', 'userService', IndexCtrl])
+  .controller('MapCtrl', ['donationService', MapCtrl])
+  .controller('DonationCtrl', ['$location', 'donationService', DonationCtrl])
+  .controller('LogCtrl', ['$routeParams', 'userService', LogCtrl])
+  .controller('MainCtrl', [MainCtrl])
+  .controller('AuthCtrl', ['$routeParams', '$location', 'authService', 'userService', AuthCtrl])
+  .controller('ProfileCtrl', ['userService', ProfileCtrl]);
 
 function IndexCtrl($location, userService) {
   var vm = this;
@@ -34,7 +34,7 @@ function IndexCtrl($location, userService) {
 
 function MapCtrl(donationService) {
   var vm = this;
-  vm.initMap = initMap();
+  vm.initMap = initMap;
   vm.donations = get();
 
   function get() {
@@ -48,9 +48,33 @@ function MapCtrl(donationService) {
   }
 
   function initMap() {
+    var styleArray = [{
+      featureType: "all",
+      stylers: [{
+        saturation: -80
+      }]
+    }, {
+      featureType: "road.arterial",
+      elementType: "geometry",
+      stylers: [{
+        hue: "#00ffee"
+      }, {
+        saturation: 50
+      }]
+    }, {
+      featureType: "poi.business",
+      elementType: "labels",
+      stylers: [{
+        visibility: "off"
+      }]
+    }];
     // Create a map object and specify the DOM element for display.
     var map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: -34.397, lng: 150.644},
+      styles: styleArray,
+      center: {
+        lat: -34.397,
+        lng: 150.644
+      },
       scrollwheel: false,
       zoom: 8
     });
@@ -82,16 +106,13 @@ function DonationCtrl($location, donationService) {
   tomorrow.setDate(tomorrow.getDate() + 1);
   var afterTomorrow = new Date();
   afterTomorrow.setDate(tomorrow.getDate() + 1);
-  vm.events = [
-    {
-      date: tomorrow,
-      status: 'full'
-    },
-    {
-      date: afterTomorrow,
-      status: 'partially'
-    }
-  ];
+  vm.events = [{
+    date: tomorrow,
+    status: 'full'
+  }, {
+    date: afterTomorrow,
+    status: 'partially'
+  }];
 
   function post(form, isValid) {
     if (isValid) {

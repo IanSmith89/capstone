@@ -1,7 +1,45 @@
-<div class="row">
-  <div class="container-fluid">
-    <div id="map">
-
+<div class="container-fluid" ng-init="MapCtrl.initMap()">
+  <div class="row">
+    <div class="col-md-2">
+      <div class="panel panel-default listings">
+        <div class="panel-heading">
+          <h3 class="panel-title">Posted Donations</h3>
+        </div>
+        <div class="panel-body">
+          <ul class="list-group">
+            <li class="list-group-item" ng-repeat="donation in MapCtrl.donations">
+              <span class="badge" ng-show="donation.category === 'Compost'">C</span>
+              <span class="badge" ng-show="donation.category === 'Food'">F</span>
+              <a href="#"><h4 class="list-group-item-heading">{{donation.details}}</h4></a>
+              <h5>{{donation.amount}} lbs.</h5>
+              <h5>Posted: {{donation.createdAt | date : 'MMM dd'}}</h5>
+              <h5>Pickup: {{donation.pickup_date | date : 'MMM dd'}}</h5>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="col-md-12" id="map"></div>
+    </div>
+    <div class="col-md-2">
+      <div class="panel panel-default listings">
+        <div class="panel-heading">
+          <h3 class="panel-title">Dropoff Locations</h3>
+        </div>
+        <div class="panel-body">
+          <ul class="list-group">
+            <li class="list-group-item" ng-repeat="donation in MapCtrl.donations">
+              <span class="badge" ng-show="donation.category === 'Compost'">C</span>
+              <span class="badge" ng-show="donation.category === 'Food'">F</span>
+              <a href="#"><h4 class="list-group-item-heading">{{donation.details}}</h4></a>
+              <h5>{{donation.amount}} lbs.</h5>
+              <h5>Posted: {{donation.createdAt | date : 'MMM dd'}}</h5>
+              <h5>Pickup: {{donation.pickup_date | date : 'MMM dd'}}</h5>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </div>

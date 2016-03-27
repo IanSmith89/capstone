@@ -18,7 +18,10 @@
   "dependencies": {
     "angular-material": "^1.0.6",
     "angular-route": "^1.5.2",
+    "angular-touch": "^1.5.2",
+    "bootstrap": "^3.3.6",
     "jquery": "^2.2.2",
-    "ngmap": "^1.16.7"
+    "ngmap": "^1.16.7",
+    "angular-bootstrap": "^1.2.5"
   }
 }

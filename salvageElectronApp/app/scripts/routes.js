@@ -12,7 +12,15 @@ function routes($routeProvider) {
     })
     .when('/map', {
       templateUrl: 'templates/map.html',
-      controller: 'MapCtrl'
+      controller: 'MapCtrl as MapCtrl'
+    })
+    .when('/donation', {
+      templateUrl: 'templates/donation.html',
+      controller: 'DonationCtrl as DC'
+    })
+    .when('/donations/:id', {
+      templateUrl: 'templates/posts.html',
+      controller: 'LogCtrl as LC'
     })
     .when('/login', {
       templateUrl: 'templates/login.html',

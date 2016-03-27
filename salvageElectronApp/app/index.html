@@ -3,9 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
   <title>Salvage</title>
-  <link rel="stylesheet" href="../bower_components/angular-material/angular-material.css" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans:400,100,200,300,500,600,700,800,900" type="text/css">
   <link rel="stylesheet" href="./styles/css/styles.css" />
@@ -21,36 +19,31 @@
         <div class="navbar navbar-collapse navbar-left">
           <ul class="nav navbar-nav">
             <li>
-              <a href="#">About</a>
-            </li>
-            <li>
               <a href="#/map">Map</a>
             </li>
             <li>
-              <a href="#">Post</a>
-            </li>
-            <li>
-              <a href="#">Request</a>
-            </li>
-            <li>
-              <a href="#">Log</a>
+              <a href="#">About</a>
             </li>
           </ul>
         </div>
         <div class="navbar navbar-collapse navbar-right">
           <ul class="nav navbar-nav">
             <li class="dropdown">
-              <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{IC.user.handle || 'Users'}} <span class="caret"></span></a>
+              <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{IC.user.handle}} <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li>
-                  <a href="#">Donor Registration</a>
-                </li>
-                <li>
-                  <a href="#">Recipient Registration</a>
+                <li ng-hide="IC.user.user.role === 'recipient' || !IC.user.loggedIn">
+                  <a href="#/donation">New Donation</a>
                 </li>
                 <li ng-hide="!IC.user.loggedIn">
-                  <a href="#/user">User Profile</a>
+                  <a href="#/user/{{IC.user.user.id}}">User Profile</a>
                 </li>
+                <li ng-hide="IC.user.user.role === 'recipient' || !IC.user.loggedIn">
+                  <a href="#/donations/{{IC.user.user.id}}">Donation Log</a>
+                </li>
+                <li ng-hide="IC.user.user.role === 'donor' || !IC.user.loggedIn">
+                  <a href="#">Receiving Settings</a>
+                </li>
+                <li role="separator" class="divider" ng-hide="!IC.user.loggedIn"></li>
                 <li ng-hide="IC.user.loggedIn">
                   <a href="#/login">Login</a>
                 </li>
@@ -67,16 +60,18 @@
   <main ng-view></main>
 
   <!-- build:js scripts/vendor.js -->
+  <script src="https://maps.googleapis.com/maps/api/js" async defer></script>
   <script>window.$ = window.jQuery = require('jquery');</script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
+  <!-- <script src="./bower_components/jquery/dist/jquery.min.js"></script> -->
+  <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
   <script src="../bower_components/angular/angular.js"></script>
   <script src="../bower_components/angular-route/angular-route.js"></script>
   <script src="../bower_components/angular-animate/angular-animate.js"></script>
   <script src="../bower_components/angular-aria/angular-aria.js"></script>
   <script src="../bower_components/angular-material/angular-material.js"></script>
+  <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
   <script src="../bower_components/ngmap/build/scripts/ng-map.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js" async defer></script>
   <!-- endbuild -->
 
   <!-- build:app scripts/app.js -->
