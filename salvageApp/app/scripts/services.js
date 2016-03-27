@@ -4,6 +4,7 @@ angular.module('salvage')
 .service('authService', ['$http', authService])
 .service('userService', ['$http', '$location', userService])
 .service('donationService', ['$http', '$location', donationService])
+.service('coordService', ['$http', coordService])
 .factory('authInterceptor', ['$location', '$q', authInterceptor]);
 
 function authService($http) {
@@ -160,6 +161,23 @@ function donationService($http, $location) {
       return response;
     }, function(err) {
       if (err) {throw err;}
+    });
+  }
+}
+
+function coordService($http) {
+  return {
+    getLatLong: getLatLong
+  };
+
+  function getLatLong(city, state) {
+    var googleMap = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + city + '&components=administrative_area:' + state + '&key=AIzaSyD5KP37ezR3Pd_x-RaTTYC3A1sxoYjekxA';
+    return $http.get(googleMap).then(function(object) {
+      var coordinates = {
+        lat: object.results[0].geometry.location.lat,
+        long: object.results[0].geometry.location.lng
+      };
+      return coordinates;
     });
   }
 }

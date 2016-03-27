@@ -6,7 +6,7 @@ angular.module('salvage')
   .controller('DonationCtrl', ['$location', 'donationService', DonationCtrl])
   .controller('LogCtrl', ['$routeParams', 'userService', LogCtrl])
   .controller('MainCtrl', [MainCtrl])
-  .controller('AuthCtrl', ['$routeParams', '$location', 'authService', 'userService', AuthCtrl])
+  .controller('AuthCtrl', ['$routeParams', '$location', 'authService', 'userService', 'coordService', AuthCtrl])
   .controller('ProfileCtrl', ['userService', ProfileCtrl]);
 
 function IndexCtrl($location, userService) {
@@ -189,7 +189,7 @@ function MainCtrl() {
   var vm = this;
 }
 
-function AuthCtrl($routeParams, $location, authService, userService) {
+function AuthCtrl($routeParams, $location, authService, userService, coordService) {
   var vm = this;
   vm.userType = $routeParams.user;
   vm.stepOne = 'incomplete';
@@ -227,11 +227,25 @@ function AuthCtrl($routeParams, $location, authService, userService) {
       user.city = form.city.$modelValue;
       user.state = form.state.$modelValue;
       user.zip = form.zip.$modelValue;
+      // user.lat and user.long
+      // var coordinates = coordService.getLatLong(user.city, user.state).then(function(res) {
+      //   console.log(res);
+      // }).catch(function(err) {
+      //   console.error(err);
+      // });
       if (form.organization.$modelValue) {
         user.organization = form.organization.$modelValue;
       } else {
         user.organization = 'Individual Donor';
       }
+
+      var test = coordService.getLatLong(user.city, user.state).then(function(res) {
+        console.log(res);
+      }).catch(function(err) {
+        console.error(err);
+      });
+
+      console.log(test);
 
       authService.register(user).then(function(res) {
         if (res.status === 200) {

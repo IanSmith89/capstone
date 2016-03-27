@@ -30,7 +30,13 @@
         <div class="panel-body">
           <ul class="list-group">
             <li class="list-group-item" ng-repeat="recipient in MapCtrl.recipients">
-              {{recipient}}
+              <span class="badge" ng-show="recipient.category === 'Compost'">C</span>
+              <span class="badge" ng-show="recipient.category === 'Food'">F</span>
+              <a href="#"><h4>{{recipient.organization}}</h4></a>
+              <h5>{{recipient.address}}</h5>
+              <h5>{{recipient.city}}, {{recipient.state}} {{recipient.zip}}</h5>
+              <a href="mailto:{{recipient.email}}"><h5>{{recipient.email}}</h5></a>
+              <h5>{{recipient.phone}}</h5>
             </li>
           </ul>
         </div>
