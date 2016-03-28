@@ -16,6 +16,9 @@
           <th>
             Preferred Pickup
           </th>
+          <th>
+            Delete
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -31,6 +34,9 @@
           </td>
           <td>
             {{donation.pickup_date | date : format : 'longDate'}}
+          </td>
+          <td>
+            <button ng-click="LC.remove(donation.id)" type="button" class="close" aria-label="Remove Item"><span aria-hidden="true">&times;</span></button>
           </td>
         </tr>
       </tbody>
