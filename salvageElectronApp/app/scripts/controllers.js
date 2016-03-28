@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('salvage')
-  .controller('IndexCtrl', ['$location', 'userService', IndexCtrl])
-  .controller('MapCtrl', ['donationService', MapCtrl])
-  .controller('DonationCtrl', ['$location', 'donationService', DonationCtrl])
-  .controller('LogCtrl', ['$routeParams', 'userService', LogCtrl])
-  .controller('MainCtrl', [MainCtrl])
-  .controller('AuthCtrl', ['$routeParams', '$location', 'authService', 'userService', AuthCtrl])
-  .controller('ProfileCtrl', ['userService', ProfileCtrl]);
+.controller('IndexCtrl', ['$location', 'userService', IndexCtrl])
+.controller('MapCtrl', ['donationService', 'userService', MapCtrl])
+.controller('DonationCtrl', ['$location', 'donationService', DonationCtrl])
+.controller('LogCtrl', ['$routeParams', 'userService', LogCtrl])
+.controller('MainCtrl', [MainCtrl])
+.controller('AuthCtrl', ['$routeParams', '$location', 'authService', 'userService', 'coordService', AuthCtrl])
+.controller('ProfileCtrl', ['userService', ProfileCtrl]);
 
 function IndexCtrl($location, userService) {
   var vm = this;
@@ -18,12 +18,8 @@ function IndexCtrl($location, userService) {
     userService.User().then(function(res) {
       // console.log(res);
     });
-  }
-
-  if (vm.user.loggedIn) {
-    userService.User().then(function(res) {
-      // console.log(res);
-    });
+  } else if (!userService.getLoginStatus()) {
+    userService.setUser({}, false);
   }
 
   function logout() {
@@ -32,26 +28,22 @@ function IndexCtrl($location, userService) {
   }
 }
 
-function MapCtrl(donationService) {
+function MapCtrl(donationService, userService) {
   var vm = this;
+  var markers;
+  var map;
+  var info;
   vm.initMap = initMap;
-  vm.donations = get();
-
-  function get() {
-    donationService.getAll().then(function(res) {
-      if (res.status === 200) {
-        vm.donations = res.data;
-      }
-    }).catch(function(err) {
-      console.error(err);
-    });
-  }
+  vm.donations = getDonations();
+  vm.recipients = getRecipients();
+  vm.user = userService.getUser();
 
   function initMap() {
+    markers = [];
     var styleArray = [{
       featureType: "all",
       stylers: [{
-        saturation: -80
+        saturation: 0
       }]
     }, {
       featureType: "road.arterial",
@@ -69,14 +61,101 @@ function MapCtrl(donationService) {
       }]
     }];
     // Create a map object and specify the DOM element for display.
-    var map = new google.maps.Map(document.getElementById('map'), {
+    map = new google.maps.Map(document.getElementById('map'), {
       styles: styleArray,
       center: {
-        lat: -34.397,
-        lng: 150.644
+        lat: Number(vm.user.user.lat),
+        lng: Number(vm.user.user.lng)
       },
       scrollwheel: false,
-      zoom: 8
+      zoom: 13
+    });
+
+    info = new google.maps.InfoWindow();
+  }
+
+  function getDonations() {
+    donationService.getAll().then(function(res) {
+      if (res.status === 200) {
+        vm.donations = res.data;
+        drop(vm.donations, 'donations');
+      }
+    }).catch(function(err) {
+      console.error(err);
+    });
+  }
+
+  function drop(arr, category) {
+    if (category === 'donations') {
+      arr.forEach(function(post, idx) {
+        userService.getById(post.donor).then(function(res) {
+          var position = {
+            lat: res.data.lat,
+            lng: res.data.lng
+          };
+          var title = post.details;
+          var id = post.id;
+          var timeout = idx * 75;
+          var icon;
+          if (post.category === 'Food') {
+            icon = '../images/fruit.png';
+          } else if (post.category === 'Compost') {
+            icon = '../images/can.png';
+          }
+          addMarkerWithTimeout(position, title, id, timeout, icon);
+        }).catch(function(err) {
+          console.error(err);
+        });
+      });
+    } else if (category === 'recipients') {
+      arr.forEach(function(recipient, idx) {
+        var position = {
+          lat: recipient.lat,
+          lng: recipient.lng
+        };
+        var title = recipient.organization;
+        var id = recipient.id;
+        var timeout = idx * 75;
+        // var icon;
+        // if (recipient.category === 'Food') {
+        //   icon = '../images/fruit.png';
+        // } else if (recipient.category === 'Compost') {
+        //   icon = '../images/can.png';
+        // }
+        var icon = '../images/can.png';
+        addMarkerWithTimeout(position, title, id, timeout, icon);
+      });
+    }
+  }
+
+  function addMarkerWithTimeout(position, title, id, timeout, icon) {
+    window.setTimeout(function() {
+      var marker = new google.maps.Marker({
+        position: position,
+        map: map,
+        animation: google.maps.Animation.DROP,
+        title: title,
+        id: id,
+        icon: icon
+      });
+      marker.addListener('click', function() {
+        map.panTo(position);
+        // map.setZoom(15); Need to figure out a smooth zoom function
+        info.setContent(title);
+        info.open(map, marker);
+      });
+      markers.push(marker);
+    }, timeout);
+  }
+
+  function getRecipients() {
+    userService.getById('recipient').then(function(res) {
+      if (res.status === 200) {
+        vm.recipients = res.data;
+        drop(vm.recipients, 'recipients');
+      }
+    }).catch(function(err) {
+      console.error(err);
     });
   }
 }
@@ -161,11 +240,10 @@ function LogCtrl($routeParams, userService) {
   vm.donations = getById();
 
   function getById() {
-    var user = userService.User().then(function(res) {
-      user = userService.getUser();
+    vm.user = userService.User().then(function(res) {
+      vm.user = userService.getUser();
       var userId = res.data.id;
       userService.getById(userId).then(function(res) {
-        vm.handle = user.handle;
         vm.donations = res.data.donations;
       });
     }).catch(function(err) {
@@ -178,7 +256,7 @@ function MainCtrl() {
   var vm = this;
 }
 
-function AuthCtrl($routeParams, $location, authService, userService) {
+function AuthCtrl($routeParams, $location, authService, userService, coordService) {
   var vm = this;
   vm.userType = $routeParams.user;
   vm.stepOne = 'incomplete';
@@ -235,14 +313,33 @@ function AuthCtrl($routeParams, $location, authService, userService) {
 
 function ProfileCtrl(userService) {
   var vm = this;
-  vm.user = userService.getUser();
-  vm.handle = vm.user.handle;
+  vm.user = userService.userData;
   vm.update = update;
   vm.destroy = destroy;
 
-  function update(userId, newData) {
-    userService.update(userId, newData).then(function(res) {
-      console.log(res);
+  function update(form) {
+    var user = {};
+    user.role = vm.user.user.role;
+    user.first_name = form.first_name.$modelValue;
+    user.last_name = form.last_name.$modelValue;
+    user.email = form.email.$modelValue;
+    user.phone = form.phone.$modelValue;
+    user.address = form.address1.$modelValue;
+    user.city = form.city.$modelValue;
+    user.state = form.state.$modelValue;
+    user.zip = form.zip.$modelValue;
+    if (form.organization.$modelValue) {
+      user.organization = form.organization.$modelValue;
+    } else {
+      user.organization = 'Individual Donor';
+    }
+    userService.update(vm.user.user.id, user).then(function(res) {
+      userService.setUser(user, true);
+      userService.logout();
+
+      // userService.User().then(function(res) {
+      //
+      // });
     }).catch(function(err) {
       console.error(err);
     });

@@ -4,12 +4,37 @@
 body {
   height: 100%;
   font-family: 'Work Sans', sans-serif;
-  background: #2bb673;
-  color: white;
-  padding-top: 70px; }
+  padding: 75px 15px 0 15px;
+  background: #f0f0f0; }
 
 nav {
-  background: #2bb673; }
+  background: #2bb673;
+  box-shadow: 0 1px 6px #6b6b6b; }
+
+.navbar.navbar-fixed-top {
+  height: 75px; }
+
+.nav.navbar-nav a {
+  height: 60px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #fdfdfd;
+  margin-top: 15px; }
+  .nav.navbar-nav a:hover, .nav.navbar-nav a:active {
+    color: #2bb673;
+    background: #f0f0f0; }
+.nav.navbar-nav .drop-link a {
+  color: #6b6b6b;
+  height: 30px;
+  margin-top: 0; }
+
+.navbar-brand {
+  width: 175px;
+  margin-left: 30px; }
+
+.container-fluid.navbar-container {
+  padding-left: 25px; }
 
 #map {
   width: 100%;
@@ -18,3 +43,61 @@ nav {
 .listings {
   height: 85vh;
   overflow: scroll; }
+
+.list-group-item {
+  background: #fdfdfd; }
+
+.register {
+  height: 550px;
+  text-align: center; }
+  .register h1 {
+    color: #fdfdfd;
+    margin-top: 210px;
+    margin-bottom: 40px;
+    font-size: 3.75em;
+    font-weight: 200;
+    letter-spacing: 2px;
+    text-shadow: 1.5px 1.5px 3px #303030; }
+
+.donor {
+  background: url("../../images/collagebw-1.jpg");
+  background-size: cover; }
+
+.recipient {
+  background: url("../../images/collagebw-2.jpg");
+  background-size: cover; }
+
+.sign-up {
+  padding: 12px 50px;
+  border: 2px solid #fdfdfd;
+  font-weight: 300;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #fdfdfd;
+  background: none; }
+  .sign-up:hover {
+    background: #2bb673;
+    color: #fdfdfd;
+    text-decoration: none; }
+
+.call-to-action {
+  padding: 35px 0;
+  background: #303030;
+  text-align: center; }
+
+.action {
+  font-size: 1.5em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 12px 50px;
+  border: 2px solid #2bb673;
+  color: #2bb673; }
+  .action:hover {
+    border: 2px solid #f0f0f0;
+    background: lightgrey;
+    color: #1e7f50;
+    text-decoration: none; }
+
+.space {
+  margin: 7.5px 0; }

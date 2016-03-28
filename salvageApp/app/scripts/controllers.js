@@ -4,7 +4,7 @@ angular.module('salvage')
 .controller('IndexCtrl', ['$location', 'userService', IndexCtrl])
 .controller('MapCtrl', ['donationService', 'userService', MapCtrl])
 .controller('DonationCtrl', ['$location', 'donationService', DonationCtrl])
-.controller('LogCtrl', ['$routeParams', 'userService', LogCtrl])
+.controller('LogCtrl', ['userService', 'donationService', LogCtrl])
 .controller('MainCtrl', [MainCtrl])
 .controller('AuthCtrl', ['$routeParams', '$location', 'authService', 'userService', 'coordService', AuthCtrl])
 .controller('ProfileCtrl', ['userService', ProfileCtrl]);
@@ -234,10 +234,10 @@ function DonationCtrl($location, donationService) {
   // }
 }
 
-function LogCtrl($routeParams, userService) {
+function LogCtrl(userService, donationService) {
   var vm = this;
-  vm.$routeParams = $routeParams;
   vm.donations = getById();
+  vm.remove = remove;
 
   function getById() {
     vm.user = userService.User().then(function(res) {
@@ -246,6 +246,14 @@ function LogCtrl($routeParams, userService) {
       userService.getById(userId).then(function(res) {
         vm.donations = res.data.donations;
       });
+    }).catch(function(err) {
+      console.error(err);
+    });
+  }
+
+  function remove(donationId) {
+    donationService.destroy(donationId).then(function(res) {
+      vm.donations = getById();
     }).catch(function(err) {
       console.error(err);
     });

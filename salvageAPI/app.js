@@ -302,21 +302,26 @@ app.get('/donations/:id', function(req, res) {
 
 // DELETE '/donations/:id' deletes donation
 app.delete('/donations/:id', jwt({secret: process.env.JWTSECRET}), function(req, res) {
-  if (req.user.role === 'admin' || req.donation.id === req.params.id) {
-    app.models.donations.destroy({id: req.params.id}, function(err) {
-      if (err) {
-        return res.status(500).json({err: err});
-      }
-      res.json({status: 'donation deleted'});
-    });
-  } else {
-    return res.status(401).json({err: 'unauthorized'});
-  }
+  app.models.donations.findOne({id: req.params.id}, function(err, model) {
+    if (err) {
+      return res.status(500).json({err: err});
+    }
+    if (model.donor === req.user.id || req.user.role === 'admin') {
+      app.models.donations.destroy({id: req.params.id}, function(err) {
+        if (err) {
+          return res.status(500).json({err: err});
+        }
+        res.json({status: 'donation deleted'});
+      });
+    } else {
+      return res.status(401).json({err: 'unauthorized'});
+    }
+  });
 });
 
 // PUT '/donations/:id' edits/updates one donation
 app.put('/donations/:id', jwt({secret: process.env.JWTSECRET}), function(req, res) {
-  if (req.user.role === 'admin' || req.donation.id === req.params.id) {
+  if (req.user.role === 'admin') {
     var donation = req.body;
     // Don't pass ID to update
     delete donation.id;

@@ -4,6 +4,7 @@ angular.module('salvage')
 .service('authService', ['$http', authService])
 .service('userService', ['$http', '$location', userService])
 .service('donationService', ['$http', '$location', donationService])
+.service('coordService', ['$http', coordService])
 .factory('authInterceptor', ['$location', '$q', authInterceptor]);
 
 function authService($http) {
@@ -44,7 +45,8 @@ function userService($http, $location) {
     update: update,
     destroy: deleteUser,
     getLoginStatus: checkLogin,
-    logout: logout
+    logout: logout,
+    userData: userData
   };
 
   function dataFromServer() {
@@ -66,8 +68,19 @@ function userService($http, $location) {
     return userData;
   }
 
-  function setUser(user) {
-    userData = user;
+  function setUser(user, bool) {
+    if (!bool) {
+      userData.user = {};
+      userData.handle = 'Users';
+    } else {
+      userData.user = user;
+      if (user.organization !== 'Individual Donor') {
+        userData.handle = user.organization;
+      } else {
+        userData.handle = user.first_name + ' ' + user.last_name;
+      }
+      userData.loggedIn = bool;
+    }
   }
 
   function getById(id) {
@@ -160,6 +173,23 @@ function donationService($http, $location) {
       return response;
     }, function(err) {
       if (err) {throw err;}
+    });
+  }
+}
+
+function coordService($http) {
+  return {
+    getLatLong: getLatLong
+  };
+
+  function getLatLong(city, state) {
+    var googleMap = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + city + '&components=administrative_area:' + state + '&key=AIzaSyD5KP37ezR3Pd_x-RaTTYC3A1sxoYjekxA';
+    return $http.get(googleMap).then(function(object) {
+      var coordinates = {
+        lat: object.results[0].geometry.location.lat,
+        long: object.results[0].geometry.location.lng
+      };
+      return coordinates;
     });
   }
 }
