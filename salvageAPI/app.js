@@ -194,11 +194,16 @@ app.get('/users/:id', function(req, res) {
 // DELETE '/users/:id' deletes user
 app.delete('/users/:id', jwt({secret: process.env.JWTSECRET}), function(req, res) {
   if (req.user.role === 'admin' || req.user.id === Number(req.params.id)) {
-    app.models.users.destroy({id: req.params.id}, function(err) {
+    app.models.users.destroy({id: Number(req.params.id)}, function(err) {
       if (err) {
         return res.status(500).json({err: err});
       }
-      res.json({status: 'User deleted'});
+      app.models.donations.destroy({donor: Number(req.params.id)}, function(err) {
+        if (err) {
+          return res.status(500).json({err: err});
+        }
+        res.json({status: 'User and donations deleted'});
+      });
     });
   } else {
     return res.status(401).json({err: 'unauthorized'});

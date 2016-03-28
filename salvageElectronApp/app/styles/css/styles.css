@@ -24,20 +24,16 @@ footer {
 .navbar.navbar-fixed-top {
   height: 75px; }
 
-.nav.navbar-nav a {
+.nav-link {
   height: 60px;
   font-weight: 300;
   letter-spacing: 1px;
   text-transform: uppercase;
   color: #fdfdfd;
   margin-top: 15px; }
-  .nav.navbar-nav a:hover, .nav.navbar-nav a:active {
+  .nav-link:hover {
     color: #2bb673;
     background: #f0f0f0; }
-.nav.navbar-nav .drop-link a {
-  color: #6b6b6b;
-  height: 30px;
-  margin-top: 0; }
 
 .navbar-brand {
   width: 175px;
@@ -67,7 +63,7 @@ footer {
     font-size: 3.75em;
     font-weight: 200;
     letter-spacing: 2px;
-    text-shadow: 1.5px 1.5px 3px #303030; }
+    text-shadow: 1.5px 1.5px 3px #2f2f2f; }
 
 .donor {
   background: url("../../images/collagebw-1.jpg");
@@ -92,7 +88,7 @@ footer {
 
 .call-to-action {
   padding: 35px 0;
-  background: #303030;
+  background: #2f2f2f;
   text-align: center; }
 
 .action {
