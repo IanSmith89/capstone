@@ -127,6 +127,41 @@ var corsOptions = {
 };
 app.use(cors(corsOptions));
 
+function getLatLong(user, callback) {
+
+  var noSpaceAddress = user.address.replace(/\s/g, '');
+  var noSpaceCity = user.city.replace(/\s/g, '');
+  var options = {
+    host: 'maps.googleapis.com',
+    path: '/maps/api/geocode/json?address=' + noSpaceAddress + noSpaceCity + user.zip + '&components=administrative_area:' + user.state + '&key=' + process.env.GoogleMapsAPIKEY
+  };
+
+  var req = https.get(options, function(res) {
+    // console.log('STATUS: ' + res.statusCode);
+    // console.log('HEADERS: ' + JSON.stringify(res.headers));
+
+    // Buffer the body entirely for processing as a whole.
+    var bodyData = [];
+    res.on('data', function(resData) {
+      // You can process streamed parts here...
+      bodyData.push(resData);
+    }).on('end', function() {
+      var body = Buffer.concat(bodyData);
+      // console.log('BODY: ' + body);
+      var data = JSON.parse(body);
+      var location = data.results[0].geometry.location;
+      // ...and/or process the entire body here.
+      user.lat = location.lat;
+      user.lng = location.lng;
+      callback(user);
+    });
+  });
+
+  req.on('error', function(e) {
+    console.log('ERROR: ' + e.message);
+  });
+}
+
 // CRUD routes
 
 // GET '/users' shows admin page of all users
@@ -157,44 +192,8 @@ app.post('/users', function(req, res) {
     bcrypt.genSalt(10, function(err, salt){
       bcrypt.hash(user.password, salt, function(err, hash){
         user.password = hash;
-        getLatLong(user, createUser);
+        getLatLong(user, callback);
       });
-    });
-  }
-
-  function getLatLong(user, callback) {
-    var noSpaceAddress = user.address;
-    var noSpaceCity = user.city;
-    noSpaceAddress = noSpaceAddress.replace(/\s/g, '');
-    noSpaceCity = noSpaceCity.replace(/\s/g, '');
-    var options = {
-      host: 'maps.googleapis.com',
-      path: '/maps/api/geocode/json?address=' + noSpaceAddress + noSpaceCity + user.zip + '&components=administrative_area:' + user.state + '&key=' + process.env.GoogleMapsAPIKEY
-    };
-
-    var req = https.get(options, function(res) {
-      // console.log('STATUS: ' + res.statusCode);
-      // console.log('HEADERS: ' + JSON.stringify(res.headers));
-
-      // Buffer the body entirely for processing as a whole.
-      var bodyData = [];
-      res.on('data', function(resData) {
-        // You can process streamed parts here...
-        bodyData.push(resData);
-      }).on('end', function() {
-        var body = Buffer.concat(bodyData);
-        // console.log('BODY: ' + body);
-        var data = JSON.parse(body);
-        var location = data.results[0].geometry.location;
-        // ...and/or process the entire body here.
-        user.lat = location.lat;
-        user.lng = location.lng;
-        callback(user);
-      });
-    });
-
-    req.on('error', function(e) {
-      console.log('ERROR: ' + e.message);
     });
   }
 
@@ -247,14 +246,18 @@ app.put('/users/:id', jwt({secret: process.env.JWTSECRET}), function(req, res) {
     var user = req.body;
     // Don't pass ID to update
     delete user.id;
+    getLatLong(user, updateUser);
+  } else {
+    return res.status(401).json({err: 'unauthorized'});
+  }
+
+  function updateUser(user) {
     app.models.users.update({id: req.params.id}, user, function(err, model) {
       if (err) {
         return res.status(500).json({err: err});
       }
       res.json(model);
     });
-  } else {
-    return res.status(401).json({err: 'unauthorized'});
   }
 });
 

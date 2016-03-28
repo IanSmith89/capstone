@@ -12,7 +12,7 @@
 <body ng-controller="IndexCtrl as IC" ng-cloak>
   <div class="container">
     <nav class="navbar navbar-fixed-top">
-      <div class="container">
+      <div class="container-fluid">
         <div class="navbar-header">
           <a class="navbar-brand" href="#/">salvage</a>
         </div>
@@ -60,7 +60,7 @@
   <main ng-view></main>
 
   <!-- build:js scripts/vendor.js -->
-  <script src="https://maps.googleapis.com/maps/api/js" async defer></script>
+  <script src="https://maps.googleapis.com/maps/api/js?sensor=false" async defer></script>
   <!-- <script>window.$ = window.jQuery = require('jquery');</script> -->
   <script src="./bower_components/jquery/dist/jquery.min.js"></script>
   <script src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>

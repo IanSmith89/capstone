@@ -45,7 +45,8 @@ function userService($http, $location) {
     update: update,
     destroy: deleteUser,
     getLoginStatus: checkLogin,
-    logout: logout
+    logout: logout,
+    userData: userData
   };
 
   function dataFromServer() {
@@ -67,8 +68,19 @@ function userService($http, $location) {
     return userData;
   }
 
-  function setUser(user) {
-    userData = user;
+  function setUser(user, bool) {
+    if (!bool) {
+      userData.user = {};
+      userData.handle = 'Users';
+    } else {
+      userData.user = user;
+      if (user.organization !== 'Individual Donor') {
+        userData.handle = user.organization;
+      } else {
+        userData.handle = user.first_name + ' ' + user.last_name;
+      }
+      userData.loggedIn = bool;
+    }
   }
 
   function getById(id) {

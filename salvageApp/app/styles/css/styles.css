@@ -4,12 +4,14 @@
 body {
   height: 100%;
   font-family: 'Work Sans', sans-serif;
-  background: #2bb673;
-  color: white;
-  padding: 70px 15px 0 15px; }
+  padding: 70px 15px 0 15px;
+  background: #f0f0f0; }
 
 nav {
   background: #2bb673; }
+
+.navbar.navbar-fixed-top {
+  height: 50px; }
 
 #map {
   width: 100%;
@@ -18,3 +20,6 @@ nav {
 .listings {
   height: 85vh;
   overflow: scroll; }
+
+.list-group-item {
+  background: #fdfdfd; }

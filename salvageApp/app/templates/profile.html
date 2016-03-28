@@ -1,6 +1,216 @@
 <div class="row">
-  <div class="col-md-offset-2 col-md-8">
-    <h2>User profile: {{PC.handle}}</h2>
-    <a href="" ng-click="PC.destroy(PC.user.user.id)">Delete User</a>
+  <div class="col-md-offset-4 col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Profile: {{PC.user.handle}}</h3>
+      </div>
+      <div class="panel-body">
+        <ul class="list-group">
+          <li class="list-group-item">
+            <form name="profile" ng-submit="PC.update(profile); profile.$setPristine();" novalidate>
+              <h4>User Information</h4>
+              <div class="form-group">
+                <label for="first_name">Primary Contact</label>
+                <input type="text" name="first_name" class="form-control" ng-model="PC.user.user.first_name" ng-minlength="2" ng-maxlength="31" required />
+                <span ng-show="profile.first_name.$error.minlength" class="help-block">Must be at least 2 characters</span>
+                <span ng-show="profile.first_name.$error.maxlength" class="help-block">Must be less than 32 characters</span>
+              </div>
+              <div class="form-group">
+                <input type="text" name="last_name" class="form-control" ng-model="PC.user.user.last_name" placeholder="Last Name" ng-minlength="2" ng-maxlength="63" required />
+                <span ng-show="profile.last_name.$error.minlength" class="help-block">Must be at least 2 characters</span>
+                <span ng-show="profile.last_name.$error.maxlength" class="help-block">Must be less than 64 characters</span>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" class="form-control" ng-model="PC.user.user.email" placeholder="Email" ng-maxlength="63" required />
+                <span ng-show="profile.email.$invalid" class="help-block">Enter a valid email</span>
+                <span ng-show="profile.email.$error.maxlength" class="help-block">Must be less than 64 characters</span>
+              </div>
+              <h4>Location Information</h4>
+              <div class="form-group">
+                <label for="organization">Organization</label>
+                <input type="text" name="organization" class="form-control" ng-model="PC.user.user.organization" placeholder="Organization" />
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="text" name="phone" class="form-control" ng-model="PC.user.user.phone" placeholder="Phone Number" />
+              </div>
+              <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" name="address1" class="form-control" ng-model="PC.user.user.address" placeholder="Street Address" />
+              </div>
+              <div class="form-group">
+                <input type="text" name="address2" class="form-control" ng-model="address2" />
+              </div>
+              <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" name="city" class="form-control" ng-model="PC.user.user.city" placeholder="City" />
+              </div>
+              <div class="form-group">
+                <label for="state">State</label>
+                <select name="state" class="form-control" ng-model="PC.user.user.state" placeholder="State">
+                  <option value="AL">
+                    Alabama
+                  </option>
+                  <option value="AK">
+                    Alaska
+                  </option>
+                  <option value="AZ">
+                    Arizona
+                  </option>
+                  <option value="AR">
+                    Arkansas
+                  </option>
+                  <option value="CA">
+                    California
+                  </option>
+                  <option value="CO">
+                    Colorado
+                  </option>
+                  <option value="CT">
+                    Connecticut
+                  </option>
+                  <option value="DE">
+                    Delaware
+                  </option>
+                  <option value="FL">
+                    Florida
+                  </option>
+                  <option value="GA">
+                    Georgia
+                  </option>
+                  <option value="HI">
+                    Hawaii
+                  </option>
+                  <option value="ID">
+                    Idaho
+                  </option>
+                  <option value="IL">
+                    Illinois
+                  </option>
+                  <option value="IN">
+                    Indiana
+                  </option>
+                  <option value="IA">
+                    Iowa
+                  </option>
+                  <option value="KS">
+                    Kansas
+                  </option>
+                  <option value="KY">
+                    Kentucky
+                  </option>
+                  <option value="LA">
+                    Louisiana
+                  </option>
+                  <option value="ME">
+                    Maine
+                  </option>
+                  <option value="MD">
+                    Maryland
+                  </option>
+                  <option value="MA">
+                    Massachusetts
+                  </option>
+                  <option value="MI">
+                    Michigan
+                  </option>
+                  <option value="MN">
+                    Minnesota
+                  </option>
+                  <option value="MS">
+                    Mississippi
+                  </option>
+                  <option value="MO">
+                    Missouri
+                  </option>
+                  <option value="MT">
+                    Montana
+                  </option>
+                  <option value="NE">
+                    Nebraska
+                  </option>
+                  <option value="NV">
+                    Nevada
+                  </option>
+                  <option value="NH">
+                    New Hampshire
+                  </option>
+                  <option value="NJ">
+                    New Jersey
+                  </option>
+                  <option value="NM">
+                    New Mexico
+                  </option>
+                  <option value="NY">
+                    New York
+                  </option>
+                  <option value="NC">
+                    North Carolina
+                  </option>
+                  <option value="ND">
+                    North Dakota
+                  </option>
+                  <option value="OH">
+                    Ohio
+                  </option>
+                  <option value="OK">
+                    Oklahoma
+                  </option>
+                  <option value="OR">
+                    Oregon
+                  </option>
+                  <option value="PA">
+                    Pennsylvania
+                  </option>
+                  <option value="RI">
+                    Rhode Island
+                  </option>
+                  <option value="SC">
+                    South Carolina
+                  </option>
+                  <option value="SD">
+                    South Dakota
+                  </option>
+                  <option value="TN">
+                    Tennessee
+                  </option>
+                  <option value="TX">
+                    Texas
+                  </option>
+                  <option value="UT">
+                    Utah
+                  </option>
+                  <option value="VT">
+                    Vermont
+                  </option>
+                  <option value="VA">
+                    Virginia
+                  </option>
+                  <option value="WA">
+                    Washington
+                  </option>
+                  <option value="WV">
+                    West Virginia
+                  </option>
+                  <option value="WI">
+                    Wisconsin
+                  </option>
+                  <option value="WY">
+                    Wyoming
+                  </option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="zip">Zip</label>
+                <input type="number" name="zip" class="form-control" ng-model="PC.user.user.zip" placeholder="Zip" />
+              </div>
+              <button type="submit" class="btn btn-default">Update</button>
+            </form>
+          </li>
+        </ul>
+        <a href="" ng-click="PC.destroy(PC.user.user.id)">Delete User</a>
+      </div>
+    </div>
   </div>
 </div>
