@@ -14,7 +14,7 @@ function authService($http) {
   };
 
   function login(user) {
-    return $http.post('http://localhost:3000/login', user).then(function(response) {
+    return $http.post('https://tranquil-oasis-27210.herokuapp.com/login', user).then(function(response) {
       return response;
     }, function(err) {
       if (err) {throw err;}
@@ -22,7 +22,7 @@ function authService($http) {
   }
 
   function register(user) {
-    return $http.post('http://localhost:3000/users', user).then(function(response) {
+    return $http.post('https://tranquil-oasis-27210.herokuapp.com/users', user).then(function(response) {
       return response;
     }, function(err) {
       if (err) {throw err;}
@@ -50,7 +50,7 @@ function userService($http, $location) {
   };
 
   function dataFromServer() {
-    return $http.get('http://localhost:3000/user_info').then(function(response) {
+    return $http.get('https://tranquil-oasis-27210.herokuapp.com/user_info').then(function(response) {
       userData.user = response.data;
       userData.loggedIn = true;
       if (response.data.organization !== 'Individual Donor') {
@@ -84,7 +84,7 @@ function userService($http, $location) {
   }
 
   function getById(id) {
-    return $http.get('http://localhost:3000/users/' + id).then(function(response) {
+    return $http.get('https://tranquil-oasis-27210.herokuapp.com/users/' + id).then(function(response) {
       return response;
     }, function(err) {
       if (err) {throw err;}
@@ -92,7 +92,7 @@ function userService($http, $location) {
   }
 
   function update(id, user) {
-    return $http.put('http://localhost:3000/users/' + id, user).then(function(response) {
+    return $http.put('https://tranquil-oasis-27210.herokuapp.com/users/' + id, user).then(function(response) {
       return response;
     }, function(err) {
       if (err) {throw err;}
@@ -100,7 +100,7 @@ function userService($http, $location) {
   }
 
   function deleteUser(userId) {
-    return $http.delete('http://localhost:3000/users/' + userId).then(function(response) {
+    return $http.delete('https://tranquil-oasis-27210.herokuapp.com/users/' + userId).then(function(response) {
       return response;
     }, function(err) {
       if (err) {throw err;}
@@ -137,7 +137,7 @@ function donationService($http, $location) {
   };
 
   function getDonations() {
-    return $http.get('http://localhost:3000/donations').then(function(response) {
+    return $http.get('https://tranquil-oasis-27210.herokuapp.com/donations').then(function(response) {
       return response;
     }, function(err) {
       if (err) {throw err;}
@@ -145,7 +145,7 @@ function donationService($http, $location) {
   }
 
   function postDonation(donation) {
-    return $http.post('http://localhost:3000/donations', donation).then(function(response) {
+    return $http.post('https://tranquil-oasis-27210.herokuapp.com/donations', donation).then(function(response) {
       return response;
     }, function(err) {
       if (err) {throw err;}
@@ -153,7 +153,7 @@ function donationService($http, $location) {
   }
 
   function getDonationById(id) {
-    return $http.get('http://localhost:3000/donations/' + id).then(function(response) {
+    return $http.get('https://tranquil-oasis-27210.herokuapp.com/donations/' + id).then(function(response) {
       return response;
     }, function(err) {
       if (err) {throw err;}
@@ -161,7 +161,7 @@ function donationService($http, $location) {
   }
 
   function updateDonation(id, donation) {
-    return $http.put('http://localhost:3000/donations/' + id, donation).then(function(response) {
+    return $http.put('https://tranquil-oasis-27210.herokuapp.com/donations/' + id, donation).then(function(response) {
       return response;
     }, function(err) {
       if (err) {throw err;}
@@ -169,7 +169,7 @@ function donationService($http, $location) {
   }
 
   function deleteDonation(id) {
-    return $http.delete('http://localhost:3000/donations/' + id).then(function(response) {
+    return $http.delete('https://tranquil-oasis-27210.herokuapp.com/donations/' + id).then(function(response) {
       return response;
     }, function(err) {
       if (err) {throw err;}
