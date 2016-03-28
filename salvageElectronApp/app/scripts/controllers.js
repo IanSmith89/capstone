@@ -122,7 +122,7 @@ function MapCtrl(donationService, userService) {
         // } else if (recipient.category === 'Compost') {
         //   icon = '../images/can.png';
         // }
-        var icon = '../images/can.png';
+        var icon = './images/can.png';
         addMarkerWithTimeout(position, title, id, timeout, icon);
       });
     }
