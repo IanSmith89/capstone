@@ -12,9 +12,9 @@
 <body ng-controller="IndexCtrl as IC" ng-cloak>
   <div class="container">
     <nav class="navbar navbar-fixed-top">
-      <div class="container-fluid">
+      <div class="container-fluid navbar-container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="#/">salvage</a>
+          <a class="navbar-brand" href="#/"><img class="img-responsive" src="./images/logo_long200.png" /></a>
         </div>
         <div class="navbar navbar-collapse navbar-left">
           <ul class="nav navbar-nav">
@@ -24,6 +24,17 @@
             <li>
               <a href="#">About</a>
             </li>
+            <li class="dropdown">
+              <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sign Up <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li class="drop-link">
+                  <a href="#/register/donor">Donor</a>
+                </li>
+                <li class="drop-link">
+                  <a href="#/register/recipient">Recipient</a>
+                </li>
+              </ul>
+            </li>
           </ul>
         </div>
         <div class="navbar navbar-collapse navbar-right">
@@ -31,23 +42,23 @@
             <li class="dropdown">
               <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{IC.user.handle}} <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li ng-hide="IC.user.user.role === 'recipient' || !IC.user.loggedIn">
+                <li class="drop-link" ng-hide="IC.user.user.role === 'recipient' || !IC.user.loggedIn">
                   <a href="#/donation">New Donation</a>
                 </li>
-                <li ng-hide="!IC.user.loggedIn">
+                <li class="drop-link" ng-hide="!IC.user.loggedIn">
                   <a href="#/user/{{IC.user.user.id}}">User Profile</a>
                 </li>
-                <li ng-hide="IC.user.user.role === 'recipient' || !IC.user.loggedIn">
+                <li class="drop-link" ng-hide="IC.user.user.role === 'recipient' || !IC.user.loggedIn">
                   <a href="#/donations/{{IC.user.user.id}}">Donation Log</a>
                 </li>
-                <li ng-hide="IC.user.user.role === 'donor' || !IC.user.loggedIn">
+                <li class="drop-link" ng-hide="IC.user.user.role === 'donor' || !IC.user.loggedIn">
                   <a href="#">Receiving Settings</a>
                 </li>
                 <li role="separator" class="divider" ng-hide="!IC.user.loggedIn"></li>
-                <li ng-hide="IC.user.loggedIn">
+                <li class="drop-link" ng-hide="IC.user.loggedIn">
                   <a href="#/login">Login</a>
                 </li>
-                <li ng-hide="!IC.user.loggedIn">
+                <li class="drop-link" ng-hide="!IC.user.loggedIn">
                   <a href="" ng-click="IC.logout()">Logout</a>
                 </li>
               </ul>
