@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('salvage')
-.controller('IndexCtrl', ['$location', 'userService', IndexCtrl])
-.controller('MapCtrl', ['donationService', 'userService', MapCtrl])
-.controller('DonationCtrl', ['$location', 'donationService', DonationCtrl])
-.controller('LogCtrl', ['userService', 'donationService', LogCtrl])
-.controller('MainCtrl', [MainCtrl])
-.controller('AuthCtrl', ['$routeParams', '$location', 'authService', 'userService', 'coordService', AuthCtrl])
-.controller('ProfileCtrl', ['$location', 'userService', ProfileCtrl]);
+  .controller('IndexCtrl', ['$location', 'userService', IndexCtrl])
+  .controller('MapCtrl', ['donationService', 'userService', MapCtrl])
+  .controller('DonationCtrl', ['$location', 'donationService', DonationCtrl])
+  .controller('LogCtrl', ['userService', 'donationService', LogCtrl])
+  .controller('MainCtrl', [MainCtrl])
+  .controller('AuthCtrl', ['$routeParams', '$location', 'authService', 'userService', 'coordService', AuthCtrl])
+  .controller('ProfileCtrl', ['$location', 'userService', ProfileCtrl]);
 
 function IndexCtrl($location, userService) {
   var vm = this;
@@ -39,33 +39,97 @@ function MapCtrl(donationService, userService) {
   vm.user = userService.getUser();
 
   function initMap() {
+    var lat, lng;
+    if (vm.user.loggedIn) {
+      lat = Number(vm.user.user.lat);
+      lng = Number(vm.user.user.lng);
+    } else {
+      lat = 40.5852778;
+      lng = -105.0838889;
+    }
     markers = [];
     var styleArray = [{
-      featureType: "all",
-      stylers: [{
-        saturation: 0
-      }]
-    }, {
-      featureType: "road.arterial",
-      elementType: "geometry",
-      stylers: [{
-        hue: "#00ffee"
+      "featureType": "landscape",
+      "stylers": [{
+        "saturation": -100
       }, {
-        saturation: 50
+        "lightness": 65
+      }, {
+        "visibility": "on"
       }]
     }, {
-      featureType: "poi.business",
-      elementType: "labels",
-      stylers: [{
-        visibility: "off"
+      "featureType": "poi",
+      "stylers": [{
+        "saturation": -100
+      }, {
+        "lightness": 51
+      }, {
+        "visibility": "simplified"
+      }]
+    }, {
+      "featureType": "road.highway",
+      "stylers": [{
+        "saturation": -100
+      }, {
+        "visibility": "simplified"
+      }]
+    }, {
+      "featureType": "road.arterial",
+      "stylers": [{
+        "saturation": -100
+      }, {
+        "lightness": 30
+      }, {
+        "visibility": "on"
+      }]
+    }, {
+      "featureType": "road.local",
+      "stylers": [{
+        "saturation": -100
+      }, {
+        "lightness": 40
+      }, {
+        "visibility": "on"
+      }]
+    }, {
+      "featureType": "transit",
+      "stylers": [{
+        "saturation": -100
+      }, {
+        "visibility": "simplified"
+      }]
+    }, {
+      "featureType": "administrative.province",
+      "stylers": [{
+        "visibility": "off"
+      }]
+    }, {
+      "featureType": "water",
+      "elementType": "labels",
+      "stylers": [{
+        "visibility": "on"
+      }, {
+        "lightness": -25
+      }, {
+        "saturation": -100
+      }]
+    }, {
+      "featureType": "water",
+      "elementType": "geometry",
+      "stylers": [{
+        "hue": "#ffff00"
+      }, {
+        "lightness": -25
+      }, {
+        "saturation": -97
       }]
     }];
     // Create a map object and specify the DOM element for display.
     map = new google.maps.Map(document.getElementById('map'), {
       styles: styleArray,
       center: {
-        lat: Number(vm.user.user.lat),
-        lng: Number(vm.user.user.lng)
+        lat: lat,
+        lng: lng
       },
       scrollwheel: false,
       zoom: 14
