@@ -35,6 +35,9 @@
                 </li>
               </ul>
             </li>
+            <li>
+              <a class="nav-link" href="#/donation">Donate!</a>
+            </li>
           </ul>
         </div>
         <div class="navbar navbar-collapse navbar-right">
@@ -42,9 +45,6 @@
             <li class="dropdown">
               <a href="" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{IC.user.handle}} <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li class="drop-link" ng-hide="IC.user.user.role === 'recipient' || !IC.user.loggedIn">
-                  <a href="#/donation">New Donation</a>
-                </li>
                 <li class="drop-link" ng-hide="!IC.user.loggedIn">
                   <a href="#/user/{{IC.user.user.id}}">User Profile</a>
                 </li>
@@ -73,7 +73,7 @@
     <div class="row footer-row">
       <div class="container">
         <p>
-          Copyright &copy; 2016 Ian Smith
+          All work copyright &copy; 2016 Ian Smith
         </p>
       </div>
     </div>

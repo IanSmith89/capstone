@@ -7,7 +7,7 @@ angular.module('salvage')
 .controller('LogCtrl', ['userService', 'donationService', LogCtrl])
 .controller('MainCtrl', [MainCtrl])
 .controller('AuthCtrl', ['$routeParams', '$location', 'authService', 'userService', 'coordService', AuthCtrl])
-.controller('ProfileCtrl', ['$route', 'userService', ProfileCtrl]);
+.controller('ProfileCtrl', ['$location', 'userService', ProfileCtrl]);
 
 function IndexCtrl($location, userService) {
   var vm = this;
@@ -68,7 +68,7 @@ function MapCtrl(donationService, userService) {
         lng: Number(vm.user.user.lng)
       },
       scrollwheel: false,
-      zoom: 13
+      zoom: 14
     });
 
     info = new google.maps.InfoWindow();
@@ -98,9 +98,9 @@ function MapCtrl(donationService, userService) {
           var timeout = idx * 75;
           var icon;
           if (post.category === 'Food') {
-            icon = '../images/fruit.png';
+            icon = '../images/marker_green_outline.png';
           } else if (post.category === 'Compost') {
-            icon = '../images/can.png';
+            icon = '../images/marker_orange_outline.png';
           }
           addMarkerWithTimeout(position, title, id, timeout, icon);
         }).catch(function(err) {
@@ -116,13 +116,12 @@ function MapCtrl(donationService, userService) {
         var title = recipient.organization;
         var id = recipient.id;
         var timeout = idx * 75;
-        // var icon;
-        // if (recipient.category === 'Food') {
-        //   icon = '../images/fruit.png';
-        // } else if (recipient.category === 'Compost') {
-        //   icon = '../images/can.png';
-        // }
-        var icon = '../images/can.png';
+        var icon;
+        if (recipient.donation_type === 'food') {
+          icon = '../images/marker_green.png';
+        } else if (recipient.donation_type === 'compost') {
+          icon = '../images/marker_orange.png';
+        }
         addMarkerWithTimeout(position, title, id, timeout, icon);
       });
     }
@@ -321,7 +320,7 @@ function AuthCtrl($routeParams, $location, authService, userService, coordServic
   }
 }
 
-function ProfileCtrl($route, userService) {
+function ProfileCtrl($location, userService) {
   var vm = this;
   vm.user = userService.userData;
   vm.update = update;
@@ -345,7 +344,8 @@ function ProfileCtrl($route, userService) {
     }
     userService.update(vm.user.user.id, user).then(function(res) {
       userService.setUser(res.data[0], true);
-      $route.reload();
+      userService.logout();
+      $location.path('/login');
 
       // userService.User().then(function(res) {
       //

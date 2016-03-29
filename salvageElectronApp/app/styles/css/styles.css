@@ -31,8 +31,8 @@ footer {
   text-transform: uppercase;
   color: #fdfdfd;
   margin-top: 15px; }
-  .nav-link:hover {
-    color: #2bb673;
+  .nav-link:hover, .nav-link:focus {
+    color: #d2763b;
     background: #f0f0f0; }
 
 .navbar-brand {
@@ -106,3 +106,39 @@ footer {
 
 .space {
   margin: 10px 0; }
+
+.panel-default > .panel-heading {
+  background-color: lightgrey; }
+  .panel-default > .panel-heading .panel-title {
+    color: #2f2f2f;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 1em;
+    font-weight: 400;
+    letter-spacing: 1px; }
+
+.list-group-item {
+  background: #fbfbfb; }
+
+.map-items {
+  background: #fbfbfb; }
+  .map-items .list-group-item-heading {
+    color: #25a065;
+    font-size: 1.25em; }
+  .map-items h5 {
+    color: #d2763b;
+    font-weight: 600; }
+  .map-items p {
+    margin: 0;
+    color: #6b6b6b; }
+  .map-items a {
+    color: #d2763b; }
+
+.calendar {
+  color: #d2763b; }
+
+.legend {
+  background: #2f2f2f;
+  color: lightgrey;
+  height: 45px;
+  padding-top: 6px; }

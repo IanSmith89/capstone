@@ -1,22 +1,37 @@
 <div class="container-fluid" ng-init="MapCtrl.initMap()">
+  <div class="row">
+    <div class="col-md-12 text-center legend">
+      <ul class="list-inline">
+        <li>
+          <img src="../images/marker_green_outline.png" /> Food Donation
+        </li>
+        <li>
+          <img src="../images/marker_orange_outline.png" /> Compost/Food Scraps
+        </li>
+        <li>
+          <img src="../images/marker_green.png" /> Food Dropoff
+        </li>
+        <li>
+          <img src="../images/marker_orange.png" /> Compost Dropoff
+        </li>
+      </ul>
+    </div>
+  </div>
   <div class="row space">
-
+    
   </div>
   <div class="row">
     <div class="col-md-2">
       <div class="panel panel-default listings">
         <div class="panel-heading">
-          <h3 class="panel-title">Posted Donations</h3>
+          <h4 class="panel-title">Posted Donations</h4>
         </div>
         <div class="panel-body">
           <ul class="list-group">
-            <li class="list-group-item" ng-repeat="donation in MapCtrl.donations">
-              <span class="badge" ng-show="donation.category === 'Compost'">C</span>
-              <span class="badge" ng-show="donation.category === 'Food'">F</span>
-              <a href="#"><h4 class="list-group-item-heading">{{donation.details}}</h4></a>
+            <li class="list-group-item map-items" ng-repeat="donation in MapCtrl.donations">
+              <h4 class="list-group-item-heading">{{donation.details}}</h4>
               <h5>{{donation.amount}} lbs.</h5>
-              <h5>Posted: {{donation.createdAt | date : 'MMM dd'}}</h5>
-              <h5>Pickup: {{donation.pickup_date | date : 'MMM dd'}}</h5>
+              <p>Posted: {{donation.createdAt | date : 'MMM dd'}} | Pickup: {{donation.pickup_date | date : 'MMM dd'}}</p>
             </li>
           </ul>
         </div>
@@ -28,18 +43,17 @@
     <div class="col-md-2">
       <div class="panel panel-default listings">
         <div class="panel-heading">
-          <h3 class="panel-title">Dropoff Locations</h3>
+          <h4 class="panel-title">Dropoff Locations</h4>
         </div>
         <div class="panel-body">
           <ul class="list-group">
-            <li class="list-group-item" ng-repeat="recipient in MapCtrl.recipients">
-              <span class="badge" ng-show="recipient.category === 'Compost'">C</span>
-              <span class="badge" ng-show="recipient.category === 'Food'">F</span>
-              <a href="#"><h4>{{recipient.organization}}</h4></a>
-              <h5>{{recipient.address}}</h5>
-              <h5>{{recipient.city}}, {{recipient.state}} {{recipient.zip}}</h5>
-              <a href="mailto:{{recipient.email}}"><h5>{{recipient.email}}</h5></a>
-              <h5>{{recipient.phone}}</h5>
+            <li class="list-group-item map-items" ng-repeat="recipient in MapCtrl.recipients">
+              <h4 class="list-group-item-heading">{{recipient.organization}}</h4>
+              <p>{{recipient.address}}</p>
+              <p>{{recipient.city}}, {{recipient.state}}</p>
+              <p>{{recipient.zip}}</p>
+              <h6>{{recipient.phone}}</h6>
+              <a href="mailto:{{recipient.email}}"><h6>{{recipient.email}}</h6></a>
             </li>
           </ul>
         </div>
