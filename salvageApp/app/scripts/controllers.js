@@ -7,7 +7,7 @@ angular.module('salvage')
 .controller('LogCtrl', ['userService', 'donationService', LogCtrl])
 .controller('MainCtrl', [MainCtrl])
 .controller('AuthCtrl', ['$routeParams', '$location', 'authService', 'userService', 'coordService', AuthCtrl])
-.controller('ProfileCtrl', ['userService', ProfileCtrl]);
+.controller('ProfileCtrl', ['$route', 'userService', ProfileCtrl]);
 
 function IndexCtrl($location, userService) {
   var vm = this;
@@ -321,7 +321,7 @@ function AuthCtrl($routeParams, $location, authService, userService, coordServic
   }
 }
 
-function ProfileCtrl(userService) {
+function ProfileCtrl($route, userService) {
   var vm = this;
   vm.user = userService.userData;
   vm.update = update;
@@ -344,8 +344,8 @@ function ProfileCtrl(userService) {
       user.organization = 'Individual Donor';
     }
     userService.update(vm.user.user.id, user).then(function(res) {
-      userService.setUser(user, true);
-      userService.logout();
+      userService.setUser(res.data[0], true);
+      $route.reload();
 
       // userService.User().then(function(res) {
       //
