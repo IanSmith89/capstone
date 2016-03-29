@@ -307,6 +307,8 @@ function AuthCtrl($routeParams, $location, authService, userService, coordServic
       } else {
         user.organization = 'Individual Donor';
       }
+      user.donation_type = 'none';
+      user.notes = '';
 
       authService.register(user).then(function(res) {
         if (res.status === 200) {
