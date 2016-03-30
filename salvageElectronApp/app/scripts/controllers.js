@@ -13,7 +13,7 @@ angular.module('salvage')
 function IndexCtrl($location, userService) {
   var vm = this;
   vm.logout = logout;
-  vm.user = userService.getUser();
+  vm.user = userService.userData;
 
   if (userService.getLoginStatus()) {
     userService.User().then(function(res) {
