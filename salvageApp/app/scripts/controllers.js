@@ -351,6 +351,7 @@ function LogCtrl(userService, donationService) {
   function remove(donationId) {
     donationService.destroy(donationId).then(function(res) {
       vm.donations = getById();
+      vm.claims = getClaimedDonations();
     }).catch(function(err) {
       console.error(err);
     });
