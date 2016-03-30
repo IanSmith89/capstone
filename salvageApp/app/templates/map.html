@@ -42,6 +42,7 @@
               <h5>{{donation.amount}} lbs.</h5>
               <p>Posted: {{donation.createdAt | date : 'MMM dd'}}</p>
               <p>Pickup: {{donation.pickup_date | date : 'MMM dd'}}</p>
+              <button type="button" ng-click="MapCtrl.claim(donation.id)" ng-hide="MapCtrl.user.user.role === 'donor' || !MapCtrl.user.loggedIn">Claim</button>
             </li>
           </ul>
         </div>

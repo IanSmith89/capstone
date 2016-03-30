@@ -52,7 +52,7 @@
                   <a href="#/donations/{{IC.user.user.id}}">Donation Log</a>
                 </li>
                 <li class="drop-link" ng-hide="IC.user.user.role === 'donor' || !IC.user.loggedIn">
-                  <a href="#">Receiving Settings</a>
+                  <a href="#/received/{{IC.user.user.id}}">Claimed Donations</a>
                 </li>
                 <li role="separator" class="divider" ng-hide="!IC.user.loggedIn"></li>
                 <li class="drop-link" ng-hide="IC.user.loggedIn">

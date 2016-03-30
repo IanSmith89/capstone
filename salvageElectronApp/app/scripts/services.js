@@ -133,7 +133,8 @@ function donationService($http, $location) {
     post: postDonation,
     getById: getDonationById,
     update: updateDonation,
-    destroy: deleteDonation
+    destroy: deleteDonation,
+    getClaims: getClaims
   };
 
   function getDonations() {
@@ -170,6 +171,14 @@ function donationService($http, $location) {
 
   function deleteDonation(id) {
     return $http.delete('https://tranquil-oasis-27210.herokuapp.com/donations/' + id).then(function(response) {
+      return response;
+    }, function(err) {
+      if (err) {throw err;}
+    });
+  }
+
+  function getClaims(donorId) {
+    return $http.get('https://tranquil-oasis-27210.herokuapp.com/claims/' + donorId).then(function(response) {
       return response;
     }, function(err) {
       if (err) {throw err;}

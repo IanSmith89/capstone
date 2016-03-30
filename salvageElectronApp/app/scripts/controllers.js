@@ -35,9 +35,10 @@ function MapCtrl(donationService, userService) {
   var map;
   var info;
   vm.initMap = initMap;
+  vm.claim = claim;
   vm.donations = getDonations();
   vm.recipients = getRecipients();
-  vm.user = userService.getUser();
+  vm.user = userService.userData;
 
   function initMap() {
     var lat, lng;
@@ -139,10 +140,28 @@ function MapCtrl(donationService, userService) {
     info = new google.maps.InfoWindow();
   }
 
+  function claim(donationId) {
+    var userId = vm.user.user.id;
+    var recipient = {
+      recipient: userId
+    };
+    donationService.update(donationId, recipient).then(function(res) {
+      vm.donations = getDonations();
+    }).catch(function(err) {
+      console.error(err);
+    });
+  }
+
   function getDonations() {
     donationService.getAll().then(function(res) {
       if (res.status === 200) {
-        vm.donations = res.data;
+        var data = [];
+        res.data.forEach(function(donation) {
+          if (donation.recipient === 0) {
+            data.push(donation);
+          }
+        });
+        vm.donations = data;
         drop(vm.donations, 'donations');
       }
     }).catch(function(err) {
@@ -301,6 +320,8 @@ function DonationCtrl($location, donationService) {
 function LogCtrl(userService, donationService) {
   var vm = this;
   vm.donations = getById();
+  vm.user = userService.userData;
+  vm.claims = getClaimedDonations();
   vm.remove = remove;
 
   function getById() {
@@ -309,6 +330,18 @@ function LogCtrl(userService, donationService) {
       var userId = res.data.id;
       userService.getById(userId).then(function(res) {
         vm.donations = res.data.donations;
+      });
+    }).catch(function(err) {
+      console.error(err);
+    });
+  }
+
+  function getClaimedDonations() {
+    vm.user = userService.User().then(function(res) {
+      vm.user = userService.getUser();
+      var userId = res.data.id;
+      donationService.getClaims(userId).then(function(res) {
+        vm.claims = res.data;
       });
     }).catch(function(err) {
       console.error(err);

@@ -26,6 +26,10 @@ function routes($routeProvider) {
       templateUrl: 'templates/posts.html',
       controller: 'LogCtrl as LC'
     })
+    .when('/received/:id', {
+      templateUrl: 'templates/claims.html',
+      controller: 'LogCtrl as LC'
+    })
     .when('/login', {
       templateUrl: 'templates/login.html',
       controller: 'AuthCtrl as AC'

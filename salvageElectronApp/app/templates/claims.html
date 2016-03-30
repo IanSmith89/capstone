@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="col-md-offset-2 col-md-8">
+    <h2>Claimed Donations: {{LC.user.handle}}</h2>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>
+            Category
+          </th>
+          <th>
+            Details
+          </th>
+          <th>
+            Estimated Weight
+          </th>
+          <th>
+            Preferred Pickup
+          </th>
+          <th>
+            Pickup Address
+          </th>
+          <th>
+            Delete
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="donation in LC.claims">
+          <td>
+            {{donation.category}}
+          </td>
+          <td>
+            {{donation.details}}
+          </td>
+          <td>
+            {{donation.amount}} lbs.
+          </td>
+          <td>
+            {{donation.pickup_date | date : format : 'longDate'}}
+          </td>
+          <td>
+            {{donation.pickup_address}}
+          </td>
+          <td>
+            <button ng-click="LC.remove(donation.id)" type="button" class="close" aria-label="Remove Item"><span aria-hidden="true">&times;</span></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
