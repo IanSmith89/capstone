@@ -3,16 +3,16 @@
     <div class="col-md-12 text-center legend">
       <ul class="list-inline">
         <li class="green">
-          <img src="../images/marker_green_outline.png" /> Food Donation
+          <img src="./images/marker_green_outline.png" /> Food Donation
         </li>
         <li class="green">
-          <img src="../images/marker_green.png" /> Food Dropoff
+          <img src="./images/marker_green.png" /> Food Dropoff
         </li>
         <li class="orange">
-          <img src="../images/marker_orange_outline.png" /> Compost/Food Scraps
+          <img src="./images/marker_orange_outline.png" /> Compost/Food Scraps
         </li>
         <li class="orange">
-          <img src="../images/marker_orange.png" /> Compost Dropoff
+          <img src="./images/marker_orange.png" /> Compost Dropoff
         </li>
       </ul>
     </div>
@@ -31,8 +31,8 @@
             <li class="list-group-item map-items" ng-repeat="donation in MapCtrl.donations | orderBy : '-createdAt'">
               <div class="row">
                 <div class="col-md-3">
-                  <img src="../images/marker_green_outline.png" ng-show="donation.category === 'Food'" />
-                  <img src="../images/marker_orange_outline.png" ng-show="donation.category === 'Compost'" />
+                  <img src="./images/marker_green_outline.png" ng-show="donation.category === 'Food'" />
+                  <img src="./images/marker_orange_outline.png" ng-show="donation.category === 'Compost'" />
                 </div>
                 <div class="col-md-9">
                   <h5 ng-class="{'orange': donation.category === 'Compost', 'green': donation.category === 'Food'}">{{donation.category}}</h5>
@@ -60,8 +60,8 @@
             <li class="list-group-item map-items" ng-repeat="recipient in MapCtrl.recipients">
               <div class="row">
                 <div class="col-md-3">
-                  <img src="../images/marker_green.png" ng-show="recipient.donation_type === 'food'" />
-                  <img src="../images/marker_orange.png" ng-show="recipient.donation_type === 'compost'" />
+                  <img src="./images/marker_green.png" ng-show="recipient.donation_type === 'food'" />
+                  <img src="./images/marker_orange.png" ng-show="recipient.donation_type === 'compost'" />
                 </div>
                 <div class="col-md-9">
                   <h5 ng-class="{'orange': recipient.donation_type === 'compost', 'green': recipient.donation_type === 'food'}">{{recipient.donation_type}}</h5>
