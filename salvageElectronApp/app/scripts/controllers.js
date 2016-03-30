@@ -182,9 +182,9 @@ function MapCtrl(donationService, userService) {
           var timeout = idx * 75;
           var icon;
           if (post.category === 'Food') {
-            icon = '../images/marker_green_outline.png';
+            icon = './images/marker_green_outline.png';
           } else if (post.category === 'Compost') {
-            icon = '../images/marker_orange_outline.png';
+            icon = './images/marker_orange_outline.png';
           }
           addMarkerWithTimeout(position, title, id, timeout, icon);
         }).catch(function(err) {
@@ -202,9 +202,9 @@ function MapCtrl(donationService, userService) {
         var timeout = idx * 75;
         var icon;
         if (recipient.donation_type === 'food') {
-          icon = '../images/marker_green.png';
+          icon = './images/marker_green.png';
         } else if (recipient.donation_type === 'compost') {
-          icon = '../images/marker_orange.png';
+          icon = './images/marker_orange.png';
         }
         addMarkerWithTimeout(position, title, id, timeout, icon);
       });
