@@ -7,7 +7,8 @@ angular.module('salvage')
   .controller('LogCtrl', ['userService', 'donationService', LogCtrl])
   .controller('MainCtrl', [MainCtrl])
   .controller('AuthCtrl', ['$routeParams', '$location', 'authService', 'userService', 'coordService', AuthCtrl])
-  .controller('ProfileCtrl', ['$location', 'userService', ProfileCtrl]);
+  .controller('ProfileCtrl', ['$location', 'userService', ProfileCtrl])
+  .controller('AboutCtrl', [AboutCtrl]);
 
 function IndexCtrl($location, userService) {
   var vm = this;
@@ -429,4 +430,8 @@ function ProfileCtrl($location, userService) {
       });
     }
   }
+}
+
+function AboutCtrl() {
+  var vm = this;
 }

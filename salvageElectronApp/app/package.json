@@ -15,7 +15,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "mocha",
-    "package": "electron-packager ~/galvanize/projects/salvage/salvageElectronApp/app Salvage --all --version=0.37.2 --out=/Users/iansmith/Desktop --overwrite"
+    "package": "electron-packager ~/galvanize/projects/salvage/salvageElectronApp/app Salvage --platform=darwin --arch=x64  --version=0.37.2 --out=/Users/iansmith/Desktop --overwrite --icon=images/salvage.icns"
   },
   "author": "Ian Smith",
   "license": "ISC"

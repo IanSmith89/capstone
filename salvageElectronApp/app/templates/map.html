@@ -28,10 +28,20 @@
         </div>
         <div class="panel-body">
           <ul class="list-group">
-            <li class="list-group-item map-items" ng-repeat="donation in MapCtrl.donations">
+            <li class="list-group-item map-items" ng-repeat="donation in MapCtrl.donations | orderBy : '-createdAt'">
+              <div class="row">
+                <div class="col-md-3">
+                  <img src="../images/marker_green_outline.png" ng-show="donation.category === 'Food'" />
+                  <img src="../images/marker_orange_outline.png" ng-show="donation.category === 'Compost'" />
+                </div>
+                <div class="col-md-9">
+                  <h5 ng-class="{'orange': donation.category === 'Compost', 'green': donation.category === 'Food'}">{{donation.category}}</h5>
+                </div>
+              </div>
               <h4 class="list-group-item-heading">{{donation.details}}</h4>
               <h5>{{donation.amount}} lbs.</h5>
-              <p>Posted: {{donation.createdAt | date : 'MMM dd'}} | Pickup: {{donation.pickup_date | date : 'MMM dd'}}</p>
+              <p>Posted: {{donation.createdAt | date : 'MMM dd'}}</p>
+              <p>Pickup: {{donation.pickup_date | date : 'MMM dd'}}</p>
             </li>
           </ul>
         </div>
@@ -48,6 +58,15 @@
         <div class="panel-body">
           <ul class="list-group">
             <li class="list-group-item map-items" ng-repeat="recipient in MapCtrl.recipients">
+              <div class="row">
+                <div class="col-md-3">
+                  <img src="../images/marker_green.png" ng-show="recipient.donation_type === 'food'" />
+                  <img src="../images/marker_orange.png" ng-show="recipient.donation_type === 'compost'" />
+                </div>
+                <div class="col-md-9">
+                  <h5 ng-class="{'orange': recipient.donation_type === 'compost', 'green': recipient.donation_type === 'food'}">{{recipient.donation_type}}</h5>
+                </div>
+              </div>
               <h4 class="list-group-item-heading">{{recipient.organization}}</h4>
               <p>{{recipient.address}}</p>
               <p>{{recipient.city}}, {{recipient.state}}</p>

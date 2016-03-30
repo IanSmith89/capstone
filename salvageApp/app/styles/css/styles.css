@@ -82,12 +82,12 @@ footer {
   color: #fdfdfd;
   background: none; }
   .sign-up:hover {
-    background: #2bb673;
+    background: #d2763b;
     color: #fdfdfd;
     text-decoration: none; }
 
 .call-to-action {
-  padding: 35px 0;
+  padding: 75px 0;
   background: #2f2f2f;
   text-align: center; }
 
@@ -101,7 +101,8 @@ footer {
   color: #2bb673; }
   .action:hover {
     border: 2px solid #f0f0f0;
-    color: #2bb673;
+    color: #f0f0f0;
+    background: #2bb673;
     text-decoration: none; }
 
 .space {
@@ -120,19 +121,15 @@ footer {
 .list-group-item {
   background: #fbfbfb; }
 
-.map-items {
-  background: #fbfbfb; }
-  .map-items .list-group-item-heading {
-    color: #25a065;
-    font-size: 1.25em; }
-  .map-items h5 {
-    color: #d2763b;
-    font-weight: 600; }
-  .map-items p {
-    margin: 0;
-    color: #6b6b6b; }
-  .map-items a {
-    color: #d2763b; }
+.map-items .list-group-item-heading {
+  font-size: 1.25em; }
+.map-items h5 {
+  font-weight: 600; }
+.map-items p {
+  margin: 0;
+  color: #6b6b6b; }
+.map-items a {
+  color: #2f2f2f; }
 
 .calendar {
   color: #d2763b; }
@@ -148,3 +145,50 @@ footer {
 
 .orange {
   color: #d2763b; }
+
+.about-row {
+  padding: 75px 0;
+  background: #d2763b;
+  color: #fdfdfd; }
+  .about-row h1 {
+    font-weight: 200;
+    letter-spacing: 2px; }
+  .about-row h4 {
+    font-weight: 300; }
+  .about-row a {
+    color: #fdfdfd; }
+    .about-row a:hover {
+      color: lightgrey; }
+
+.map-row {
+  background: url("../../images/map_snap.png");
+  background-size: cover;
+  padding: 50px 0;
+  color: #2f2f2f; }
+  .map-row h4 {
+    font-size: 1em;
+    font-weight: 600;
+    text-transform: uppercase; }
+
+.glyphicon.glyphicon-search, .glyphicon.glyphicon-map-marker, .glyphicon.glyphicon-grain {
+  font-size: 3em;
+  margin-bottom: 15px; }
+
+.view-map {
+  margin-top: 30px; }
+
+.view-map-btn {
+  font-size: 1.5em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 12px 50px;
+  margin-top: 15px;
+  border: 2px solid #2bb673;
+  background: #2bb673;
+  color: #fdfdfd; }
+  .view-map-btn:hover {
+    border: 2px solid #2bb673;
+    background: none;
+    color: #2bb673;
+    text-decoration: none; }
