@@ -19,8 +19,7 @@ function routes($routeProvider) {
       controller: 'DonationCtrl as DC'
     })
     .when('/about', {
-      templateUrl: 'templates/about.html',
-      controller: 'AboutCtrl as AC'
+      templateUrl: 'templates/about.html'
     })
     .when('/donations/:id', {
       templateUrl: 'templates/posts.html',
@@ -33,6 +32,9 @@ function routes($routeProvider) {
     .when('/login', {
       templateUrl: 'templates/login.html',
       controller: 'AuthCtrl as AC'
+    })
+    .when('/contact', {
+      templateUrl: 'templates/contact.html'
     })
     .when('/register/:user', {
       templateUrl: 'templates/register.html',

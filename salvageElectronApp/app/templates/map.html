@@ -42,7 +42,7 @@
               <h5>{{donation.amount}} lbs.</h5>
               <p>Posted: {{donation.createdAt | date : 'MMM dd'}}</p>
               <p>Pickup: {{donation.pickup_date | date : 'MMM dd'}}</p>
-              <button type="button" ng-click="MapCtrl.claim(donation.id)" ng-hide="MapCtrl.user.user.role === 'donor' || !MapCtrl.user.loggedIn">Claim</button>
+              <button type="button" class="claim-btn" ng-click="MapCtrl.claim(donation.id)" ng-hide="MapCtrl.user.user.role === 'donor' || !MapCtrl.user.loggedIn">Claim</button>
             </li>
           </ul>
         </div>
@@ -65,7 +65,8 @@
                   <img src="./images/marker_orange.png" ng-show="recipient.donation_type === 'compost'" />
                 </div>
                 <div class="col-md-9">
-                  <h5 ng-class="{'orange': recipient.donation_type === 'compost', 'green': recipient.donation_type === 'food'}">{{recipient.donation_type}}</h5>
+                  <h5 ng-show="recipient.donation_type === 'compost'" class="orange">Compost</h5>
+                  <h5 ng-show="recipient.donation_type === 'food'" class="green">Food</h5>
                 </div>
               </div>
               <h4 class="list-group-item-heading">{{recipient.organization}}</h4>

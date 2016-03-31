@@ -192,3 +192,13 @@ footer {
     background: none;
     color: #2bb673;
     text-decoration: none; }
+
+.claim-btn {
+  width: 100%;
+  margin-top: 12px; }
+
+.contact-link {
+  font-size: 3.25em;
+  color: #d2763b; }
+  .contact-link:hover {
+    color: #2bb673; }

@@ -7,8 +7,7 @@ angular.module('salvage')
   .controller('LogCtrl', ['userService', 'donationService', LogCtrl])
   .controller('MainCtrl', [MainCtrl])
   .controller('AuthCtrl', ['$routeParams', '$location', 'authService', 'userService', 'coordService', AuthCtrl])
-  .controller('ProfileCtrl', ['$location', 'userService', ProfileCtrl])
-  .controller('AboutCtrl', [AboutCtrl]);
+  .controller('ProfileCtrl', ['$location', 'userService', ProfileCtrl]);
 
 function IndexCtrl($location, userService) {
   var vm = this;
@@ -388,8 +387,14 @@ function AuthCtrl($routeParams, $location, authService, userService, coordServic
       var user = {};
       if (vm.userType === 'donor') {
         user.role = 'donor';
+        user.donation_type = null;
       } else {
         user.role = 'recipient';
+        if (form.category.$modelValue === 'Food') {
+          user.donation_type = 'food';
+        } else {
+          user.donation_type = 'compost';
+        }
       }
       user.first_name = form.first_name.$modelValue;
       user.last_name = form.last_name.$modelValue;
@@ -405,7 +410,6 @@ function AuthCtrl($routeParams, $location, authService, userService, coordServic
       } else {
         user.organization = 'Individual Donor';
       }
-      user.donation_type = 'none';
       user.notes = '';
 
       authService.register(user).then(function(res) {
@@ -464,8 +468,4 @@ function ProfileCtrl($location, userService) {
       });
     }
   }
-}
-
-function AboutCtrl() {
-  var vm = this;
 }
